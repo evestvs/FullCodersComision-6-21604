@@ -127,8 +127,12 @@ Funcion ContratosAltas (CR Por Referencia)
 		//Se asigna a la fila que representa el contrato.
 		CR[ConvertirANumero(UnCaracter),1]=Trunc(ConvertirANumero(UnCaracter))
 		Escribir "Número de contrato ingresado: " CR[ConvertirANumero(UnCaracter),1]
-		
+		//------------------------------------------------------------------------------
+		//Se valida la fecha de inicio del contrato.
 		//Se inicializa la variable para validar otros datos.
+		Repetir
+			
+
 		FechaCorrecta=Falso
 		DosCaracteres=""
 		//No se sale del bucle hasta que se ingrese un dia correcto del mes.
@@ -209,6 +213,92 @@ Funcion ContratosAltas (CR Por Referencia)
 		Fecha=Concatenar(Fecha,Dia)
 		CR[ConvertirANumero(UnCaracter),2]=Trunc(ConvertirANumero(Fecha))
 		Escribir CR[ConvertirANumero(UnCaracter),2]
+		//------------------------------------------------------------------------------
+		//Se valida la fecha de fin del contrato.
+		//Se inicializa la variable para validar otros datos.
+		FechaCorrecta=Falso
+		DosCaracteres=""
+		//No se sale del bucle hasta que se ingrese un dia correcto del mes.
+		Mientras NO(FechaCorrecta) Hacer
+			
+			Escribir "Ingrese el día de fin de la locación: " Sin Saltar
+			Leer Dia
+			
+			DosCaracteres=Subcadena(Dia,1,2)
+			
+			Escribir DosCaracteres
+			
+			Segun DosCaracteres Hacer
+				"1","2","3","4","5","6","7","8","9":
+					FechaCorrecta=Verdadero					
+				"01","02","03","04","05","06","07","08","09","10":
+					FechaCorrecta=Verdadero
+				"11","12","13","14","15","16","17","18","19","20":
+					FechaCorrecta=Verdadero					
+				"21","22","23","24","25","26","27","28","29","30":
+					FechaCorrecta=Verdadero		
+				"31":
+					FechaCorrecta=Verdadero	
+				De Otro Modo:
+					FechaCorrecta=Falso
+					Escribir "Datos ingresado no corresponde a un día del mes"
+			FinSegun
+		FinMientras
+		
+		//Se inicializa la variable para validar otros datos.
+		FechaCorrecta=Falso
+		DosCaracteres=""		
+		//No se sale del bucle hasta que se ingrese un mes correcto del año calendario.
+		Mientras NO(FechaCorrecta) Hacer
+			
+			Escribir "Ingrese el mes de fin de la locación: " Sin Saltar
+			Leer Mes
+			
+			DosCaracteres=Subcadena(Mes,1,2)
+			
+			Escribir DosCaracteres
+			
+			Segun DosCaracteres Hacer
+				"1","2","3","4","5","6","7","8","9":
+					FechaCorrecta=Verdadero					
+				"01","02","03","04","05","06","07","08","09":
+					FechaCorrecta=Verdadero
+				"10","11","12":
+					FechaCorrecta=Verdadero
+				De Otro Modo:
+					FechaCorrecta=Falso
+					Escribir "Datos ingresado no corresponde a un mes del año"
+			FinSegun
+		FinMientras
+		
+		//Se inicializa la variable para validar otros datos.
+		FechaCorrecta=Falso
+		CuatroCaracteres=""		
+		//No se sale del bucle hasta que se ingrese el año calendario.
+		Mientras NO(FechaCorrecta) Hacer
+			
+			Escribir "Ingrese el año de fin de la locación: " Sin Saltar
+			Leer Anio
+			
+			CuatroCaracteres=Subcadena(Anio,1,4)
+			
+			Escribir CuatroCaracteres
+			
+			Segun CuatroCaracteres Hacer
+				"2023","2024","2025","2026","2027","2028","2029","2030":
+																		FechaCorrecta=Verdadero					
+				De Otro Modo:
+								FechaCorrecta=Falso
+								Escribir "Datos ingresado no corresponde a un número de año"
+			FinSegun
+		FinMientras
+		Fecha=Concatenar(Anio,Mes)
+		Fecha=Concatenar(Fecha,Dia)
+		CR[ConvertirANumero(UnCaracter),3]=Trunc(ConvertirANumero(Fecha))
+		
+
+		
+	Hasta Que CR[ConvertirANumero(UnCaracter),3] <= CR[ConvertirANumero(UnCaracter),2]	
 	SiNo
 		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
 	FinSi
@@ -232,11 +322,12 @@ Funcion ContratosVigentes (CR Por Referencia)
 	Para ContratosFilas=1 Hasta 5 Con Paso 1 Hacer
 		//Se obtiene la cantidad de días vigentes del contrato.		
 		Dias=CR[ContratosFilas,3]-CR[ContratosFilas,2]
+		Escribir""
 		Escribir "*******************************************************************************************************************************"
-		Escribir "Número de contrato: " , CR[ContratosFilas,1]	," Inicio: ", CR[ContratosFilas,2] ," Fin: ",CR[ContratosFilas,3], " Días: ",Dias
-		Escribir "Rodado:             " , CR[ContratosFilas,4]	
-		Escribir "Importe total:      " , CR[ContratosFilas,5] ," $"
-		Escribir "Servicio:           " , CR[ContratosFilas,3]
+		Escribir "(Número de contrato): " , CR[ContratosFilas,1]	," (Inicio): ", CR[ContratosFilas,2] ," (Fin): ",CR[ContratosFilas,3], " (Días): ",Dias
+		Escribir "(Rodado):             " , CR[ContratosFilas,4]	
+		Escribir "(Importe total):      " , CR[ContratosFilas,5] ," $"
+		Escribir "(Servicio):           " , CR[ContratosFilas,3]
 		Escribir "*******************************************************************************************************************************"
 	FinPara
 	
@@ -278,6 +369,7 @@ Algoritmo GestionDeContratos
 	//Se declara la dimension de los diferentes servicios que puede ofrecer el negocio
 	Dimension ClaseDeServicios[5]
 	//Se declara la dimension de en donde se va a registrar los contratos vigentes.
+	//Estructura de la variable= Contrato/FechaDeInicio/FechaDeFin/Dias/Rodados/ImporteTotal/ServicioAsociado.
 	Dimension ContratosRegistros[5,7]
 	
 	//Se realiza el alta de los contratos.
