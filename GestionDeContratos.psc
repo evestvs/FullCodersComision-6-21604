@@ -1,33 +1,54 @@
 //***********************************************************************************************************************
+Funcion EsUnNumeroDeContrato(DatoCorrecto Por Referencia, ValorIngresado Por Valor)
+	//Función que verifica si es un número el valor ingresado.
+	//Declaro las variables a utilizar.	
+	Definir UnCaracter Como Caracter
 
+	
+	UnCaracter=Subcadena(ValorIngresado,1,1)
+	
+	Segun UnCaracter Hacer
+		"1":
+			DatoCorrecto=Verdadero
+		"2":
+			DatoCorrecto=Verdadero
+		"3":
+			DatoCorrecto=Verdadero
+		"4":
+			DatoCorrecto=Verdadero
+		"5":
+			DatoCorrecto=Verdadero
+		De Otro Modo:
+			DatoCorrecto=Falso
+	FinSegun
+FinFuncion
+//***********************************************************************************************************************
 Funcion MenuPrincipal
 	
 	Limpiar Pantalla
-	
+	Escribir "------------------------------------------------------------------------------------------------------------"	
 	Escribir "        Menú Principal"
-	Escribir ""
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "     1. Parametros."
 	Escribir "     2. Contratos (Altas / Bajas / Consultas)"
 	Escribir "     3."
 	Escribir "     4."
 	Escribir ""
-	Escribir "     9. Finalzar"
-	Escribir ""
+	Escribir "     9. Finalizar"
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "        Eliga una opción: "
-	Escribir ""
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	
 FinFuncion
-
 //***********************************************************************************************************************//
-
 Funcion MenuParametros
 	//Declaro las variables a utilizar
 	Definir A Como Entero
 	
 	Limpiar Pantalla
-	
+	Escribir "------------------------------------------------------------------------------------------------------------"	
 	Escribir "   1.   Menú Parametros"
-	Escribir ""
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "   1.1. Contratos"
 	Escribir "   1.2. Clase de rodados"
 	Escribir "   1.3. Clase de costos "
@@ -36,21 +57,21 @@ Funcion MenuParametros
 	Escribir "   1.6."
 	Escribir ""
 	Escribir "   1.0. Volver menú anterior"
-	Escribir ""
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "        Eliga una opción: "
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	
 FinFuncion
-
 //***********************************************************************************************************************//
-
 Funcion MenuContratos
 	//Declaro las variables a utilizar
 	Definir A Como Entero
 	
 	Limpiar Pantalla
 	
+	Escribir "------------------------------------------------------------------------------------------------------------"	
 	Escribir "   2.   Menú Contratos"
-	Escribir ""
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "   2.1. Altas"
 	Escribir "   2.2. Bajas"
 	Escribir "   2.3. Contratos vigentes "
@@ -59,31 +80,55 @@ Funcion MenuContratos
 	Escribir "   2.6."
 	Escribir ""
 	Escribir "   2.0. Volver menú anterior"
-	Escribir ""
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "        Eliga una opción: "
+	Escribir "------------------------------------------------------------------------------------------------------------"
 	
 FinFuncion
 //***********************************************************************************************************************//
-
+//Función que realiza el alta de los contratos.
 Funcion ContratosAltas (CR Por Referencia)
 	//Declaro las variables a utilizar.
 	//CR=Iniciales de la variable ContratosRegistros.
-	//Se declara porque lo solicita el programa Pseint al ejecutar.
-	Definir ContratosFilas Como Entero
-	Definir ContratosColumnas Como Entero
+	Definir ContratoIngresado Como Caracter
+	Definir UnCaracter Como Caracter
+	Definir Dia Como Caracter
+	Definir Mes Como Caracter
+	Definir Anio Como Caracter
+	Definir DatoCorrecto Como Logico
 	
-	ContratosFilas=1
-	ContratosColumnas=1
+	Escribir "Número de contrato: " Sin Saltar
+	Leer ContratoIngresado
 	
-	//Se verifica si hay cupo para realizar el alta del servicio de locación.
-	Para ContratosFilas=1 Hasta 5 Con Paso 1 Hacer
-		Escribir "Número de contrato: " , CR[ContratosFilas,ContratosColumnas]
-	FinPara
+	UnCaracter=Subcadena(ContratoIngresado,1,1)
+	
+	Segun UnCaracter Hacer
+		"1":
+			DatoCorrecto=Verdadero
+		"2":
+			DatoCorrecto=Verdadero
+		"3":
+			DatoCorrecto=Verdadero
+		"4":
+			DatoCorrecto=Verdadero
+		"5":
+			DatoCorrecto=Verdadero
+		De Otro Modo:
+			DatoCorrecto=Falso
+	FinSegun
+	
+	Si DatoCorrecto Entonces
+		
+		CR[ConvertirANumero(UnCaracter),1]=Trunc(ConvertirANumero(UnCaracter))
+		
+	SiNo
+		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
+	FinSi
+	
 	
 FinFuncion
-
 //***********************************************************************************************************************//
-
+//Funcion que muestra los contratos vigentes del negocio.
 Funcion ContratosVigentes (CR Por Referencia)
 	//Declaro las variables a utilizar.
 	//CR=Iniciales de la variable ContratosRegistros.
@@ -101,23 +146,24 @@ Funcion ContratosVigentes (CR Por Referencia)
 	Para ContratosFilas=1 Hasta 5 Con Paso 1 Hacer
 		//Se obtiene la cantidad de días vigentes del contrato.		
 		Dias=CR[ContratosFilas,3]-CR[ContratosFilas,2]
-		Escribir ""
+		Escribir "*******************************************************************************************************************************"
 		Escribir "Número de contrato: " , CR[ContratosFilas,1]	," Inicio: ", CR[ContratosFilas,2] ," Fin: ",CR[ContratosFilas,3], " Días: ",Dias
 		Escribir "Rodado:             " , CR[ContratosFilas,4]	
 		Escribir "Importe total:      " , CR[ContratosFilas,5] ," $"
 		Escribir "Servicio:           " , CR[ContratosFilas,3]
-		Escribir ""	
+		Escribir "*******************************************************************************************************************************"
 	FinPara
 	
 FinFuncion
 
 //***********************************************************************************************************************//
+//Cuerpo principal del programa.
 Algoritmo GestionDeContratos
 	//Declaro las variables a utilizar
 	//Se declara porque lo solicita el programa Pseint al ejecutar.
 	Definir I Como Entero
 	//Se utiliza para definir la cantidad de contratos que se pueden realizar dependiendo de la dimensión del negocio.
-	Definir CantidadDeContratos Como Entero
+	Definir IdentifcaciónDeContratos Como Entero
 	//Se utiliza para definir la clase de rodados del parque automotor actual.
 	Definir ClaseDeRodados Como Caracter
 	//Se utiliza para definir la clase de costos.
@@ -130,12 +176,11 @@ Algoritmo GestionDeContratos
 	Definir ClaseDeServicios Como Caracter
 	//Se utilizar para registrar los contratos vigentes de la actividad del negocio.
 	Definir ContratosRegistros Como Entero
-	
 	//Se utiliza para salir del bucle Repetir
 	Definir Opcion Como Entero
 	
 	//Se declara la dimensión del negocio como si tuviera cinco espacios disponibles.
-	Dimension CantidadDeContratos[5]
+	Dimension IdentifcaciónDeContratos[5]
 	//Se declara la dimensión de la cantidad de rodados. (Autos/Camionetas/Motos/Bicicleta/Monopatin.)
 	Dimension ClaseDeRodados[5]
 	//Se declara la dimensión de la cantidad de costos. (Bienes/Servicios/Impuestos/Otros).
@@ -152,7 +197,7 @@ Algoritmo GestionDeContratos
 	//Se realiza el alta de los contratos.
 	//Eventualmente a modo de presentación se realiza el alta de la cantidad de 5 (cinco) contratos.
 	Para I=1 Hasta 5 Con Paso 1
-		CantidadDeContratos[I]=I
+		IdentifcaciónDeContratos[I]=I
 	FinPara
 	
 	//Se realiza el alta de las clases de rodados.
@@ -220,7 +265,7 @@ Algoritmo GestionDeContratos
 							Escribir "         Contrato número: "
 							Escribir ""
 							Para I=1 Hasta 5 Con Paso 1
-								Escribir "         "  CantidadDeContratos[I]
+								Escribir "         "  IdentifcaciónDeContratos[I]
 							FinPara
 							Escribir ""
 							Escribir "Presione una tecla"
@@ -300,6 +345,7 @@ Algoritmo GestionDeContratos
 					Leer opcion
 					Segun Opcion Hacer
 						1:
+							ContratosAltas(ContratosRegistros)
 						2:							
 						3:
 							ContratosVigentes(ContratosRegistros)
@@ -316,7 +362,7 @@ Algoritmo GestionDeContratos
 				Escribir "Opción no válida"
 		FinSegun
 	Hasta Que Opcion=9
-		
-		Escribir ""
-		
+	
+	Escribir ""
+	
 FinAlgoritmo
