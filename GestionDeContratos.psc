@@ -1,42 +1,120 @@
-//***********************************************************************************************************************//
+//***********************************************************************************************************************
+
 Funcion MenuPrincipal
 	
 	Limpiar Pantalla
 	
-	Escribir "      Menú Principal"
+	Escribir "        Menú Principal"
 	Escribir ""
-	Escribir "   1. Parametros."
-	Escribir "   2."
-	Escribir "   3."
-	Escribir "   4."
-	Escribir "   5. Salir."
+	Escribir "     1. Parametros."
+	Escribir "     2. Contratos (Altas / Bajas / Consultas)"
+	Escribir "     3."
+	Escribir "     4."
 	Escribir ""
-	Escribir "      Eliga una opción (1-5): "
+	Escribir "     9. Finalzar"
+	Escribir ""
+	Escribir "        Eliga una opción: "
 	Escribir ""
 	
 FinFuncion
+
 //***********************************************************************************************************************//
+
 Funcion MenuParametros
 	//Declaro las variables a utilizar
 	Definir A Como Entero
 	
 	Limpiar Pantalla
 	
-	Escribir "        Menú Parametros"
+	Escribir "   1.   Menú Parametros"
 	Escribir ""
 	Escribir "   1.1. Contratos"
 	Escribir "   1.2. Clase de rodados"
 	Escribir "   1.3. Clase de costos "
 	Escribir "   1.4. Clase de listas de precios"
 	Escribir "   1.5. Clase de servicios"
-	Escribir "   1.6. Volver menú anterior"
+	Escribir "   1.6."
 	Escribir ""
-	Escribir "      Eliga una opción (1-6): "
+	Escribir "   1.0. Volver menú anterior"
+	Escribir ""
+	Escribir "        Eliga una opción: "
+	
+FinFuncion
+
+//***********************************************************************************************************************//
+
+Funcion MenuContratos
+	//Declaro las variables a utilizar
+	Definir A Como Entero
+	
+	Limpiar Pantalla
+	
+	Escribir "   2.   Menú Contratos"
+	Escribir ""
+	Escribir "   2.1. Altas"
+	Escribir "   2.2. Bajas"
+	Escribir "   2.3. Contratos vigentes "
+	Escribir "   2.4. Capacidad ociosa"
+	Escribir "   2.5."
+	Escribir "   2.6."
+	Escribir ""
+	Escribir "   2.0. Volver menú anterior"
+	Escribir ""
+	Escribir "        Eliga una opción: "
 	
 FinFuncion
 //***********************************************************************************************************************//
+
+Funcion ContratosAltas (CR Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable ContratosRegistros.
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir ContratosFilas Como Entero
+	Definir ContratosColumnas Como Entero
+	
+	ContratosFilas=1
+	ContratosColumnas=1
+	
+	//Se verifica si hay cupo para realizar el alta del servicio de locación.
+	Para ContratosFilas=1 Hasta 5 Con Paso 1 Hacer
+		Escribir "Número de contrato: " , CR[ContratosFilas,ContratosColumnas]
+	FinPara
+	
+FinFuncion
+
+//***********************************************************************************************************************//
+
+Funcion ContratosVigentes (CR Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable ContratosRegistros.
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir ContratosFilas Como Entero
+	Definir ContratosColumnas Como Entero
+	Definir Dias Como Entero
+	
+	Limpiar Pantalla
+	//Se inicializa las variables.
+	ContratosFilas=1
+	ContratosColumnas=1
+	
+	//Se muestra los contratos vigentes.
+	Para ContratosFilas=1 Hasta 5 Con Paso 1 Hacer
+		//Se obtiene la cantidad de días vigentes del contrato.		
+		Dias=CR[ContratosFilas,3]-CR[ContratosFilas,2]
+		Escribir ""
+		Escribir "Número de contrato: " , CR[ContratosFilas,1]	," Inicio: ", CR[ContratosFilas,2] ," Fin: ",CR[ContratosFilas,3], " Días: ",Dias
+		Escribir "Rodado:             " , CR[ContratosFilas,4]	
+		Escribir "Importe total:      " , CR[ContratosFilas,5] ," $"
+		Escribir "Servicio:           " , CR[ContratosFilas,3]
+		Escribir ""	
+	FinPara
+	
+FinFuncion
+
+//***********************************************************************************************************************//
 Algoritmo GestionDeContratos
 	//Declaro las variables a utilizar
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
 	Definir I Como Entero
 	//Se utiliza para definir la cantidad de contratos que se pueden realizar dependiendo de la dimensión del negocio.
 	Definir CantidadDeContratos Como Entero
@@ -48,8 +126,11 @@ Algoritmo GestionDeContratos
 	Definir ClaseDeListasDePrecios Como Caracter
 	//Se utiliza para definir el precio por cada clase de rodados.
 	Definir ClaseDeListasDePreciosImporte Como Real
-	//Se utilizar para definir los servicios que pudiesen ofrecer la activdad del negocio.
+	//Se utiliza para definir los servicios que pudiesen ofrecer la activdad del negocio.
 	Definir ClaseDeServicios Como Caracter
+	//Se utilizar para registrar los contratos vigentes de la actividad del negocio.
+	Definir ContratosRegistros Como Entero
+	
 	//Se utiliza para salir del bucle Repetir
 	Definir Opcion Como Entero
 	
@@ -65,6 +146,8 @@ Algoritmo GestionDeContratos
 	Dimension ClaseDeListasDePreciosImporte[11]
 	//Se declara la dimension de los diferentes servicios que puede ofrecer el negocio
 	Dimension ClaseDeServicios[5]
+	//Se declara la dimension de en donde se va a registrar los contratos vigentes.
+	Dimension ContratosRegistros[5,7]
 	
 	//Se realiza el alta de los contratos.
 	//Eventualmente a modo de presentación se realiza el alta de la cantidad de 5 (cinco) contratos.
@@ -117,62 +200,123 @@ Algoritmo GestionDeContratos
 	ClaseDeServicios[5]="Gestoría"
 	
 	Repetir 
-	MenuPrincipal
-	
-	Leer Opcion
-	
-	Segun Opcion Hacer
-		1:
-			MenuParametros
-			Leer Opcion
-			Segun Opcion Hacer
-					"A":
-						Escribir ""
-						Escribir "         Contrato número: "
-						Escribir ""
-						Para I=1 Hasta 5 Con Paso 1
-							Escribir "         " CantidadDeContratos[I]
-						FinPara
-						Escribir ""
-					"B":	
-						Escribir ""
-						Escribir "         Clases de rodados: "
-						Escribir  ""
-						Para I=1 Hasta 5 Con Paso 1
-							 Escribir "         " ClaseDeRodados[I]
-						FinPara						
-						Escribir ""
-					"C":
-						Escribir ""
-						Escribir "          Clases de costos: "
-						Escribir ""
-						Para I=1 Hasta 4 Con Paso 1
-							Escribir "         " ClaseDeCostos[I]
-						FinPara						
-						Escribir ""
-					"D":
-						Escribir ""
-						Escribir "         Lista de precios"
-						Escribir ""
-						Para I=1 Hasta 11 Con Paso 1
-							Escribir "         " ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
-						FinPara						
-						Escribir ""
-					"E":
-						Escribir ""
-						Escribir "         Lista de servicios"
-						Escribir ""
-						Para I=1 Hasta 5 Con Paso 1
-							Escribir "         " ClaseDeServicios[I]
-						FinPara						
-						Escribir ""						
-					De otro modo:
-						Escribir "Opción no válida"			
-			FinSegun			
-		2:			
-		5:	
-		De otro modo:
-			Escribir "Opción no válida"			
-	FinSegun
-	Hasta Que Opcion=5
+		
+		MenuPrincipal
+		
+		Leer Opcion
+		
+		Segun Opcion Hacer
+			1:
+				MenuParametros
+				
+				Repetir
+					
+					Leer Opcion
+					
+					Segun Opcion Hacer
+						1:					
+							Limpiar Pantalla
+							Escribir ""
+							Escribir "         Contrato número: "
+							Escribir ""
+							Para I=1 Hasta 5 Con Paso 1
+								Escribir "         "  CantidadDeContratos[I]
+							FinPara
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						2:	
+							Limpiar Pantalla							
+							Escribir ""
+							Escribir "         Clases de rodados: "
+							Escribir  ""
+							Para I=1 Hasta 5 Con Paso 1
+								Escribir "         "  , I, " ",ClaseDeRodados[I]
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						3:
+							Limpiar Pantalla							
+							Escribir ""
+							Escribir "          Clases de costos: "
+							Escribir ""
+							Para I=1 Hasta 4 Con Paso 1
+								Escribir "         "  , I, " ", ClaseDeCostos[I]
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						4:
+							Limpiar Pantalla							
+							Escribir ""
+							Escribir "         Lista de precios"
+							Escribir ""
+							Para I=1 Hasta 11 Con Paso 1
+								si I<10 Entonces
+									Escribir "         " , I, "  ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
+								SiNo
+									Escribir "         " , I, " ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
+								FinSi
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						5:
+							Limpiar Pantalla							
+							Escribir ""
+							Escribir "         Lista de servicios"
+							Escribir ""
+							Para I=1 Hasta 5 Con Paso 1
+								Escribir "         "  , I, " ",ClaseDeServicios[I]
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros					
+						6:
+							Limpiar Pantalla							
+							Escribir ""
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros								
+						0:	
+						De otro modo:
+							Escribir ""
+							Escribir "(Opción no válida)"
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros												
+					FinSegun
+				Hasta Que Opcion=0	
+			2:								
+				Repetir
+					MenuContratos
+					Leer opcion
+					Segun Opcion Hacer
+						1:
+						2:							
+						3:
+							ContratosVigentes(ContratosRegistros)
+						De Otro Modo:
+							
+					FinSegun
+					Esperar Tecla
+				Hasta Que Opcion=0
+			3:	
+			4:
+			5:
+			9:
+			De otro modo:
+				Escribir "Opción no válida"
+		FinSegun
+	Hasta Que Opcion=9
+		
+		Escribir ""
+		
 FinAlgoritmo
