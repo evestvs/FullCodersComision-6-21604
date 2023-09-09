@@ -92,14 +92,19 @@ Funcion ContratosAltas (CR Por Referencia)
 	//CR=Iniciales de la variable ContratosRegistros.
 	Definir ContratoIngresado Como Caracter
 	Definir UnCaracter Como Caracter
+	Definir DosCaracteres Como Caracter
+	Definir CuatroCaracteres Como Caracter
 	Definir Dia Como Caracter
 	Definir Mes Como Caracter
 	Definir Anio Como Caracter
+	Definir Fecha Como Caracter
 	Definir DatoCorrecto Como Logico
+	Definir FechaCorrecta Como Logico
 	
 	Escribir "Número de contrato: " Sin Saltar
 	Leer ContratoIngresado
-	
+	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.
+	//-----------------------------------------------------------------------------------
 	UnCaracter=Subcadena(ContratoIngresado,1,1)
 	
 	Segun UnCaracter Hacer
@@ -116,16 +121,97 @@ Funcion ContratosAltas (CR Por Referencia)
 		De Otro Modo:
 			DatoCorrecto=Falso
 	FinSegun
-	
+	//-----------------------------------------------------------------------------------
 	Si DatoCorrecto Entonces
-		
+		//El dato ingresado se encuentra dentro del rango de los contratos.
+		//Se asigna a la fila que representa el contrato.
 		CR[ConvertirANumero(UnCaracter),1]=Trunc(ConvertirANumero(UnCaracter))
+		Escribir "Número de contrato ingresado: " CR[ConvertirANumero(UnCaracter),1]
 		
+		//Se inicializa la variable para validar otros datos.
+		FechaCorrecta=Falso
+		DosCaracteres=""
+		//No se sale del bucle hasta que se ingrese un dia correcto del mes.
+		Mientras NO(FechaCorrecta) Hacer
+			
+			Escribir "Ingrese el día de inicio de la locación: " Sin Saltar
+			Leer Dia
+			
+			DosCaracteres=Subcadena(Dia,1,2)
+			
+			Escribir DosCaracteres
+			
+			Segun DosCaracteres Hacer
+				"1","2","3","4","5","6","7","8","9":
+													FechaCorrecta=Verdadero					
+				"01","02","03","04","05","06","07","08","09","10":
+													FechaCorrecta=Verdadero
+				"11","12","13","14","15","16","17","18","19","20":
+													FechaCorrecta=Verdadero					
+				"21","22","23","24","25","26","27","28","29","30":
+													FechaCorrecta=Verdadero		
+				"31":
+					FechaCorrecta=Verdadero	
+				De Otro Modo:
+					FechaCorrecta=Falso
+					Escribir "Datos ingresado no corresponde a un día del mes"
+			FinSegun
+		FinMientras
+		
+		//Se inicializa la variable para validar otros datos.
+		FechaCorrecta=Falso
+		DosCaracteres=""		
+		//No se sale del bucle hasta que se ingrese un mes correcto del año calendario.
+		Mientras NO(FechaCorrecta) Hacer
+			
+			Escribir "Ingrese el mes de inicio de la locación: " Sin Saltar
+			Leer Mes
+			
+			DosCaracteres=Subcadena(Mes,1,2)
+			
+			Escribir DosCaracteres
+			
+			Segun DosCaracteres Hacer
+				"1","2","3","4","5","6","7","8","9":
+													FechaCorrecta=Verdadero					
+				"01","02","03","04","05","06","07","08","09":
+													FechaCorrecta=Verdadero
+				"10","11","12":
+					FechaCorrecta=Verdadero
+				De Otro Modo:
+					FechaCorrecta=Falso
+					Escribir "Datos ingresado no corresponde a un mes del año"
+			FinSegun
+		FinMientras
+		
+		//Se inicializa la variable para validar otros datos.
+		FechaCorrecta=Falso
+		CuatroCaracteres=""		
+		//No se sale del bucle hasta que se ingrese el año calendario.
+		Mientras NO(FechaCorrecta) Hacer
+			
+			Escribir "Ingrese el año de inicio de la locación: " Sin Saltar
+			Leer Anio
+			
+			CuatroCaracteres=Subcadena(Anio,1,4)
+			
+			Escribir CuatroCaracteres
+			
+			Segun CuatroCaracteres Hacer
+				"2023","2024","2025","2026","2027","2028","2029","2030":
+																		FechaCorrecta=Verdadero					
+				De Otro Modo:
+							FechaCorrecta=Falso
+							Escribir "Datos ingresado no corresponde a un número de año"
+			FinSegun
+		FinMientras
+		Fecha=Concatenar(Anio,Mes)
+		Fecha=Concatenar(Fecha,Dia)
+		CR[ConvertirANumero(UnCaracter),2]=Trunc(ConvertirANumero(Fecha))
+		Escribir CR[ConvertirANumero(UnCaracter),2]
 	SiNo
 		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
 	FinSi
-	
-	
 FinFuncion
 //***********************************************************************************************************************//
 //Funcion que muestra los contratos vigentes del negocio.
