@@ -1,12 +1,73 @@
 //***********************************************************************************************************************
-Funcion EsUnNumeroDeContrato(DatoCorrecto Por Referencia, ValorIngresado Por Valor)
-	//Función que verifica si es un número el valor ingresado.
+//Función que da de baja los contratos.
+Funcion ContratosBajas (CR Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable ContratosRegistros.
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir I Como Entero
+	Definir ContratoIngresado Como Caracter
+	Definir UnCaracter Como Caracter
+	Definir DatoCorrecto Como Logico
+	
+	Escribir "Ingrese el contrato a eliminar: " Sin Saltar
+	Leer ContratoIngresado
+	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.
+	//----------------------------------------------------------------------------------------------------------------------------------------------
+	UnCaracter=Subcadena(ContratoIngresado,1,1)
+	
+	Segun UnCaracter Hacer
+		"1":
+			DatoCorrecto=Verdadero
+		"2":
+			DatoCorrecto=Verdadero
+		"3":
+			DatoCorrecto=Verdadero
+		"4":
+			DatoCorrecto=Verdadero
+		"5":
+			DatoCorrecto=Verdadero
+		De Otro Modo:
+			DatoCorrecto=Falso
+	FinSegun
+	//-----------------------------------------------------------------------------------------------------------------------------------------------	
+	Si DatoCorrecto Entonces
+		//Se elimina el número de contrato.
+		Para I=1 Hasta 11 Con Paso 1 Hacer
+			CR[ConvertirANumero(UnCaracter),I]=0
+		FinPara
+	SiNo
+		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
+	FinSi
+	
+FinFuncion
+//***********************************************************************************************************************
+//Función que verifica los contratos libres actuales.
+Funcion ContratosCapacidadOciosa (CR Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable ContratosRegistros.
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir I Como Entero
+	Definir CapacidadVacia Como Entero	
+	//Se inicializa las variables.
+	I=0
+	CapacidadVacia=0
+	
+	Para I=1 hasta 5 Con Paso 1 Hacer
+		Si CR[I,1]=0 Entonces
+			CapacidadVacia=CapacidadVacia+1
+		SiNo
+		FinSi
+	FinPara
+	
+	Escribir "Cantidad de contratos libres: ", CapacidadVacia
+	
+FinFuncion
+//***********************************************************************************************************************
+//Función que verifica si es un número el valor ingresado.
+Funcion EsUnNumeroDeContrato(DatoCorrecto Por Referencia, ValorIngresado Por Valor)	
 	//Declaro las variables a utilizar.	
 	Definir UnCaracter Como Caracter
-
-	
 	UnCaracter=Subcadena(ValorIngresado,1,1)
-	
 	Segun UnCaracter Hacer
 		"1":
 			DatoCorrecto=Verdadero
@@ -91,20 +152,32 @@ Funcion ContratosAltas (CR Por Referencia)
 	//Declaro las variables a utilizar.
 	//CR=Iniciales de la variable ContratosRegistros.
 	Definir ContratoIngresado Como Caracter
+	//-----------------------------------------------------------------------------------
 	Definir UnCaracter Como Caracter
 	Definir DosCaracteres Como Caracter
 	Definir CuatroCaracteres Como Caracter
+	//-----------------------------------------------------------------------------------
+	//Se utilizan para el ingreso de las fechas.	
 	Definir Dia Como Caracter
 	Definir Mes Como Caracter
 	Definir Anio Como Caracter
-	Definir Fecha Como Caracter
+	//-----------------------------------------------------------------------------------
 	Definir DatoCorrecto Como Logico
 	Definir FechaCorrecta Como Logico
+	//-----------------------------------------------------------------------------------
+	//Se utiliza para verificar el codigo del rodado.
+	Definir RodadoIngresado Como Caracter
+	//-----------------------------------------------------------------------------------
+	//Se utiliza para verificar el codigo del servicio.
+	Definir ServicioIngresado Como Caracter
+	//-----------------------------------------------------------------------------------
+	//Se utiliza para validar que la fecha final sea mayor a la fecha inicial.
+	Definir VolverIngresarFechas Como Logico     
 	
 	Escribir "Número de contrato: " Sin Saltar
 	Leer ContratoIngresado
 	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.
-	//-----------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------------------------------------------------------
 	UnCaracter=Subcadena(ContratoIngresado,1,1)
 	
 	Segun UnCaracter Hacer
@@ -121,184 +194,233 @@ Funcion ContratosAltas (CR Por Referencia)
 		De Otro Modo:
 			DatoCorrecto=Falso
 	FinSegun
-	//-----------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------------------------------------
 	Si DatoCorrecto Entonces
 		//El dato ingresado se encuentra dentro del rango de los contratos.
 		//Se asigna a la fila que representa el contrato.
 		CR[ConvertirANumero(UnCaracter),1]=Trunc(ConvertirANumero(UnCaracter))
 		Escribir "Número de contrato ingresado: " CR[ConvertirANumero(UnCaracter),1]
-		//------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------------------------------------------------------------
 		//Se valida la fecha de inicio del contrato.
 		//Se inicializa la variable para validar otros datos.
+		//Se utiliza el bucle Repetir para verificar que la fecha final sea superior a la fecha inicial.
 		Repetir
-			
-
-		FechaCorrecta=Falso
-		DosCaracteres=""
-		//No se sale del bucle hasta que se ingrese un dia correcto del mes.
-		Mientras NO(FechaCorrecta) Hacer
-			
-			Escribir "Ingrese el día de inicio de la locación: " Sin Saltar
-			Leer Dia
-			
-			DosCaracteres=Subcadena(Dia,1,2)
-			
-			Escribir DosCaracteres
-			
-			Segun DosCaracteres Hacer
-				"1","2","3","4","5","6","7","8","9":
-													FechaCorrecta=Verdadero					
-				"01","02","03","04","05","06","07","08","09","10":
-													FechaCorrecta=Verdadero
-				"11","12","13","14","15","16","17","18","19","20":
-													FechaCorrecta=Verdadero					
-				"21","22","23","24","25","26","27","28","29","30":
-													FechaCorrecta=Verdadero		
-				"31":
-					FechaCorrecta=Verdadero	
+			FechaCorrecta=Falso
+			DosCaracteres=""
+			VolverIngresarFechas=Falso
+			//No se sale del bucle hasta que se ingrese un dia correcto del mes.
+			Mientras NO(FechaCorrecta) Hacer
+				Escribir "Ingrese el DÍA de INICIO de la locación: " Sin Saltar
+				Leer Dia
+				DosCaracteres=Subcadena(Dia,1,2)
+				Segun DosCaracteres Hacer
+					"1","2","3","4","5","6","7","8","9":
+						FechaCorrecta=Verdadero					
+					"01","02","03","04","05","06","07","08","09","10":
+						FechaCorrecta=Verdadero
+					"11","12","13","14","15","16","17","18","19","20":
+						FechaCorrecta=Verdadero					
+					"21","22","23","24","25","26","27","28","29","30":
+						FechaCorrecta=Verdadero		
+					"31":
+						FechaCorrecta=Verdadero	
+					De Otro Modo:
+						FechaCorrecta=Falso
+						Escribir "Datos ingresado no corresponde a un día del mes"
+				FinSegun
+			FinMientras
+			//Se inicializa la variable para validar otros datos.
+			FechaCorrecta=Falso
+			DosCaracteres=""		
+			//No se sale del bucle hasta que se ingrese un mes correcto del año calendario.
+			Mientras NO(FechaCorrecta) Hacer
+				Escribir "Ingrese el MES de INICIO de la locación: " Sin Saltar
+				Leer Mes
+				DosCaracteres=Subcadena(Mes,1,2)
+				Segun DosCaracteres Hacer
+					"1","2","3","4","5","6","7","8","9":
+						FechaCorrecta=Verdadero					
+					"01","02","03","04","05","06","07","08","09":
+						FechaCorrecta=Verdadero
+					"10","11","12":
+						FechaCorrecta=Verdadero
+					De Otro Modo:
+						FechaCorrecta=Falso
+						Escribir "Datos ingresado no corresponde a un mes del año"
+				FinSegun
+			FinMientras
+			//Se inicializa la variable para validar otros datos.
+			FechaCorrecta=Falso
+			CuatroCaracteres=""		
+			//No se sale del bucle hasta que se ingrese el año calendario.
+			Mientras NO(FechaCorrecta) Hacer
+				Escribir "Ingrese el AÑO de INICIO de la locación: " Sin Saltar
+				Leer Anio
+				CuatroCaracteres=Subcadena(Anio,1,4)
+				Segun CuatroCaracteres Hacer
+					"2023","2024","2025","2026","2027","2028","2029","2030":
+						FechaCorrecta=Verdadero					
+					De Otro Modo:
+						FechaCorrecta=Falso
+						Escribir "Datos ingresado no corresponde a un número de año"
+				FinSegun
+			FinMientras
+			//---------------------------------------------------------------------------------------------------------------------------------------
+			//Se guarda los valores ingresados por el inicio del contrato del año, mes y dia, en la fila que representa al contrato.
+			CR[ConvertirANumero(UnCaracter),2]=Trunc(ConvertirANumero(Anio))
+			CR[ConvertirANumero(UnCaracter),3]=Trunc(ConvertirANumero(Mes))
+			CR[ConvertirANumero(UnCaracter),4]=Trunc(ConvertirANumero(Dia))
+			//---------------------------------------------------------------------------------------------------------------------------------------
+			//Se valida la fecha de fin del contrato.
+			//Se inicializa la variable para validar otros datos.
+			FechaCorrecta=Falso
+			DosCaracteres=""
+			//No se sale del bucle hasta que se ingrese un dia correcto del mes.
+			Mientras NO(FechaCorrecta) Hacer
+				Escribir "Ingrese el DÍA de FIN de la locación: " Sin Saltar
+				Leer Dia
+				DosCaracteres=Subcadena(Dia,1,2)
+				Segun DosCaracteres Hacer
+					"1","2","3","4","5","6","7","8","9":
+						FechaCorrecta=Verdadero					
+					"01","02","03","04","05","06","07","08","09","10":
+						FechaCorrecta=Verdadero
+					"11","12","13","14","15","16","17","18","19","20":
+						FechaCorrecta=Verdadero					
+					"21","22","23","24","25","26","27","28","29","30":
+						FechaCorrecta=Verdadero		
+					"31":
+						FechaCorrecta=Verdadero	
+					De Otro Modo:
+						FechaCorrecta=Falso
+						Escribir "Datos ingresado no corresponde a un día del mes"
+				FinSegun
+			FinMientras
+			//Se inicializa la variable para validar otros datos.
+			FechaCorrecta=Falso
+			DosCaracteres=""		
+			//No se sale del bucle hasta que se ingrese un mes correcto del año calendario.
+			Mientras NO(FechaCorrecta) Hacer
+				Escribir "Ingrese el MES de FIN de la locación: " Sin Saltar
+				Leer Mes
+				DosCaracteres=Subcadena(Mes,1,2)
+				Segun DosCaracteres Hacer
+					"1","2","3","4","5","6","7","8","9":
+						FechaCorrecta=Verdadero					
+					"01","02","03","04","05","06","07","08","09":
+						FechaCorrecta=Verdadero
+					"10","11","12":
+						FechaCorrecta=Verdadero
+					De Otro Modo:
+						FechaCorrecta=Falso
+						Escribir "Datos ingresado no corresponde a un mes del año"
+				FinSegun
+			FinMientras
+			//Se inicializa la variable para validar otros datos.
+			FechaCorrecta=Falso
+			CuatroCaracteres=""		
+			//No se sale del bucle hasta que se ingrese el año calendario.
+			Mientras NO(FechaCorrecta) Hacer
+				Escribir "Ingrese el AÑO de FIN de la locación: " Sin Saltar
+				Leer Anio
+				CuatroCaracteres=Subcadena(Anio,1,4)
+				Segun CuatroCaracteres Hacer
+					"2023","2024","2025","2026","2027","2028","2029","2030":
+						FechaCorrecta=Verdadero					
+					De Otro Modo:
+						FechaCorrecta=Falso
+						Escribir "Datos ingresado no corresponde a un número de año"
+				FinSegun
+			FinMientras
+			//Se guarda los valores ingresados por el fin del contrato del año, mes y dia, en la fila que representa al contrato.
+			CR[ConvertirANumero(UnCaracter),5]=Trunc(ConvertirANumero(Anio))
+			CR[ConvertirANumero(UnCaracter),6]=Trunc(ConvertirANumero(Mes))
+			CR[ConvertirANumero(UnCaracter),7]=Trunc(ConvertirANumero(Dia))
+			//---------------------------------------------------------------------------------------------------------------------------------------
+			//Se verifica que el año final sea mayor o igual al año inicial.
+			Si CR[ConvertirANumero(UnCaracter),5] >= CR[ConvertirANumero(UnCaracter),2] Entonces
+				//El año final es mayor o igual al año inicial.
+				Si CR[ConvertirANumero(UnCaracter),5] > CR[ConvertirANumero(UnCaracter),2] Entonces
+					//El año final es mayor al año inicial.
+					VolverIngresarFechas=Verdadero
+				SiNo
+					//El año final es igual al año inicial.
+					//Se verifica el mes final sea mayor o igual al mes inicial.
+					Si CR[ConvertirANumero(UnCaracter),6] >= CR[ConvertirANumero(UnCaracter),3] Entonces
+						//El mes final es mayor o igual al mes final.
+						Si CR[ConvertirANumero(UnCaracter),6] > CR[ConvertirANumero(UnCaracter),3] Entonces
+							//El mes final es mayor al mes inicial.
+							VolverIngresarFechas=Verdadero							
+						SiNo
+							//El mes final es igual al mes inicial.
+							//Se verifica el día final sea mayor o igual al día inicial.
+							Si CR[ConvertirANumero(UnCaracter),7] > CR[ConvertirANumero(UnCaracter),4] Entonces
+								//El día final es mayor al día incial.
+								//Estadia mínima un día.
+								VolverIngresarFechas=Verdadero
+							SiNo
+								Escribir "Fechas ingresadas INCORRECTAS."
+							FinSi
+						FinSi
+					SiNo
+						Escribir "Fechas ingresadas INCORRECTAS."
+					FinSi
+				FinSi
+			Sino
+				Escribir "Fechas ingresadas INCORRECTAS."
+			FinSi
+			//---------------------------------------------------------------------------------------------------------------------------------------
+		Hasta Que VolverIngresarFechas
+		//-------------------------------------------------------------------------------------------------------------------------------------------
+		//Se valida los rodados.
+		DatoCorrecto=Falso
+		//No se sale del bucle hasta que se ingrese el codigo del rodado.
+		Repetir
+			Escribir "Ingrese el codigo del rodado: " Sin Saltar
+			Leer RodadoIngresado
+			RodadoIngresado=Subcadena(RodadoIngresado,1,1)
+			Segun RodadoIngresado Hacer
+				"1":
+					DatoCorrecto=Verdadero
+				"2":
+					DatoCorrecto=Verdadero
+				"3":
+					DatoCorrecto=Verdadero
+				"4":
+					DatoCorrecto=Verdadero
+				"5":
+					DatoCorrecto=Verdadero					
 				De Otro Modo:
-					FechaCorrecta=Falso
-					Escribir "Datos ingresado no corresponde a un día del mes"
-			FinSegun
-		FinMientras
-		
-		//Se inicializa la variable para validar otros datos.
-		FechaCorrecta=Falso
-		DosCaracteres=""		
-		//No se sale del bucle hasta que se ingrese un mes correcto del año calendario.
-		Mientras NO(FechaCorrecta) Hacer
-			
-			Escribir "Ingrese el mes de inicio de la locación: " Sin Saltar
-			Leer Mes
-			
-			DosCaracteres=Subcadena(Mes,1,2)
-			
-			Escribir DosCaracteres
-			
-			Segun DosCaracteres Hacer
-				"1","2","3","4","5","6","7","8","9":
-													FechaCorrecta=Verdadero					
-				"01","02","03","04","05","06","07","08","09":
-													FechaCorrecta=Verdadero
-				"10","11","12":
-					FechaCorrecta=Verdadero
+					DatoCorrecto=Falso
+					Escribir "Codigo de rodado incorrecto."
+			FinSegun			
+		Hasta Que DatoCorrecto
+		//Se asigna el codigo del rodado.
+		CR[ConvertirANumero(UnCaracter),9]=Trunc(ConvertirANumero(RodadoIngresado))
+		//-------------------------------------------------------------------------------------------------------------------------------------------
+		//Se valida los servicios.
+		DatoCorrecto=Falso
+		//No se sale del bucle hasta que se ingrese el codigo del rodado.
+		Repetir
+			Escribir "Ingrese el codigo del servicio: " Sin Saltar
+			Leer ServicioIngresado
+			ServicioIngresado=Subcadena(ServicioIngresado,1,1)
+			Segun ServicioIngresado Hacer
+				"1":
+					DatoCorrecto=Verdadero
+				"2":
+					DatoCorrecto=Verdadero
+				"3":
+					DatoCorrecto=Verdadero
+				"4":
+					DatoCorrecto=Verdadero
 				De Otro Modo:
-					FechaCorrecta=Falso
-					Escribir "Datos ingresado no corresponde a un mes del año"
-			FinSegun
-		FinMientras
-		
-		//Se inicializa la variable para validar otros datos.
-		FechaCorrecta=Falso
-		CuatroCaracteres=""		
-		//No se sale del bucle hasta que se ingrese el año calendario.
-		Mientras NO(FechaCorrecta) Hacer
-			
-			Escribir "Ingrese el año de inicio de la locación: " Sin Saltar
-			Leer Anio
-			
-			CuatroCaracteres=Subcadena(Anio,1,4)
-			
-			Escribir CuatroCaracteres
-			
-			Segun CuatroCaracteres Hacer
-				"2023","2024","2025","2026","2027","2028","2029","2030":
-																		FechaCorrecta=Verdadero					
-				De Otro Modo:
-							FechaCorrecta=Falso
-							Escribir "Datos ingresado no corresponde a un número de año"
-			FinSegun
-		FinMientras
-		Fecha=Concatenar(Anio,Mes)
-		Fecha=Concatenar(Fecha,Dia)
-		CR[ConvertirANumero(UnCaracter),2]=Trunc(ConvertirANumero(Fecha))
-		Escribir CR[ConvertirANumero(UnCaracter),2]
-		//------------------------------------------------------------------------------
-		//Se valida la fecha de fin del contrato.
-		//Se inicializa la variable para validar otros datos.
-		FechaCorrecta=Falso
-		DosCaracteres=""
-		//No se sale del bucle hasta que se ingrese un dia correcto del mes.
-		Mientras NO(FechaCorrecta) Hacer
-			
-			Escribir "Ingrese el día de fin de la locación: " Sin Saltar
-			Leer Dia
-			
-			DosCaracteres=Subcadena(Dia,1,2)
-			
-			Escribir DosCaracteres
-			
-			Segun DosCaracteres Hacer
-				"1","2","3","4","5","6","7","8","9":
-					FechaCorrecta=Verdadero					
-				"01","02","03","04","05","06","07","08","09","10":
-					FechaCorrecta=Verdadero
-				"11","12","13","14","15","16","17","18","19","20":
-					FechaCorrecta=Verdadero					
-				"21","22","23","24","25","26","27","28","29","30":
-					FechaCorrecta=Verdadero		
-				"31":
-					FechaCorrecta=Verdadero	
-				De Otro Modo:
-					FechaCorrecta=Falso
-					Escribir "Datos ingresado no corresponde a un día del mes"
-			FinSegun
-		FinMientras
-		
-		//Se inicializa la variable para validar otros datos.
-		FechaCorrecta=Falso
-		DosCaracteres=""		
-		//No se sale del bucle hasta que se ingrese un mes correcto del año calendario.
-		Mientras NO(FechaCorrecta) Hacer
-			
-			Escribir "Ingrese el mes de fin de la locación: " Sin Saltar
-			Leer Mes
-			
-			DosCaracteres=Subcadena(Mes,1,2)
-			
-			Escribir DosCaracteres
-			
-			Segun DosCaracteres Hacer
-				"1","2","3","4","5","6","7","8","9":
-					FechaCorrecta=Verdadero					
-				"01","02","03","04","05","06","07","08","09":
-					FechaCorrecta=Verdadero
-				"10","11","12":
-					FechaCorrecta=Verdadero
-				De Otro Modo:
-					FechaCorrecta=Falso
-					Escribir "Datos ingresado no corresponde a un mes del año"
-			FinSegun
-		FinMientras
-		
-		//Se inicializa la variable para validar otros datos.
-		FechaCorrecta=Falso
-		CuatroCaracteres=""		
-		//No se sale del bucle hasta que se ingrese el año calendario.
-		Mientras NO(FechaCorrecta) Hacer
-			
-			Escribir "Ingrese el año de fin de la locación: " Sin Saltar
-			Leer Anio
-			
-			CuatroCaracteres=Subcadena(Anio,1,4)
-			
-			Escribir CuatroCaracteres
-			
-			Segun CuatroCaracteres Hacer
-				"2023","2024","2025","2026","2027","2028","2029","2030":
-																		FechaCorrecta=Verdadero					
-				De Otro Modo:
-								FechaCorrecta=Falso
-								Escribir "Datos ingresado no corresponde a un número de año"
-			FinSegun
-		FinMientras
-		Fecha=Concatenar(Anio,Mes)
-		Fecha=Concatenar(Fecha,Dia)
-		CR[ConvertirANumero(UnCaracter),3]=Trunc(ConvertirANumero(Fecha))
-		
-
-		
-	Hasta Que CR[ConvertirANumero(UnCaracter),3] <= CR[ConvertirANumero(UnCaracter),2]	
+					DatoCorrecto=Falso
+					Escribir "Codigo de servicio incorrecto."
+			FinSegun			
+		Hasta Que DatoCorrecto
+		//Se asigna el codigo del servicio.
+		CR[ConvertirANumero(UnCaracter),11]=Trunc(ConvertirANumero(ServicioIngresado))		
 	SiNo
 		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
 	FinSi
@@ -321,13 +443,13 @@ Funcion ContratosVigentes (CR Por Referencia)
 	//Se muestra los contratos vigentes.
 	Para ContratosFilas=1 Hasta 5 Con Paso 1 Hacer
 		//Se obtiene la cantidad de días vigentes del contrato.		
-		Dias=CR[ContratosFilas,3]-CR[ContratosFilas,2]
+		
 		Escribir""
 		Escribir "*******************************************************************************************************************************"
-		Escribir "(Número de contrato): " , CR[ContratosFilas,1]	," (Inicio): ", CR[ContratosFilas,2] ," (Fin): ",CR[ContratosFilas,3], " (Días): ",Dias
-		Escribir "(Rodado):             " , CR[ContratosFilas,4]	
-		Escribir "(Importe total):      " , CR[ContratosFilas,5] ," $"
-		Escribir "(Servicio):           " , CR[ContratosFilas,3]
+		Escribir "(Número de contrato): " , CR[ContratosFilas,1]	," (Inicio): ", CR[ContratosFilas,4] ,"/",CR[ContratosFilas,3] ,"/",CR[ContratosFilas,2] ," (Fin): ",CR[ContratosFilas,7] ,"/",CR[ContratosFilas,6] ,"/",CR[ContratosFilas,5] , " (Días): ",CR[ContratosFilas,8]
+		Escribir "(Rodado):             " , CR[ContratosFilas,9] 
+		Escribir "(Importe total):      " , CR[ContratosFilas,10] ," $"
+		Escribir "(Servicio):           " , CR[ContratosFilas,11]
 		Escribir "*******************************************************************************************************************************"
 	FinPara
 	
@@ -369,8 +491,19 @@ Algoritmo GestionDeContratos
 	//Se declara la dimension de los diferentes servicios que puede ofrecer el negocio
 	Dimension ClaseDeServicios[5]
 	//Se declara la dimension de en donde se va a registrar los contratos vigentes.
-	//Estructura de la variable= Contrato/FechaDeInicio/FechaDeFin/Dias/Rodados/ImporteTotal/ServicioAsociado.
-	Dimension ContratosRegistros[5,7]
+	//Estructura de la variable= Contrato/FechaDeInicio=Año*Mes*DiaFechaDeFin=Año*Mes*Dia/Dias/Rodados/ImporteTotal/ServicioAsociado.
+	//Columna1=Contrato.
+	//Columna2=AñoInicio.
+	//Columna3=MesInicio.
+	//Columna4=DiaInicio.
+	//Columna5=AñoFin
+	//Columna6=MesFin.
+	//Columna7=DiaFin.
+	//Columna8=Dias.
+	//Columna9=Rodados.
+	//Columna10=ImporteTotal.
+	//Columna11=ServicioAsociado.
+	Dimension ContratosRegistros[5,11]
 	
 	//Se realiza el alta de los contratos.
 	//Eventualmente a modo de presentación se realiza el alta de la cantidad de 5 (cinco) contratos.
@@ -524,9 +657,12 @@ Algoritmo GestionDeContratos
 					Segun Opcion Hacer
 						1:
 							ContratosAltas(ContratosRegistros)
-						2:							
+						2:
+							ContratosBajas(ContratosRegistros)
 						3:
 							ContratosVigentes(ContratosRegistros)
+						4:
+							ContratosCapacidadOciosa(ContratosRegistros)
 						De Otro Modo:
 							
 					FinSegun
