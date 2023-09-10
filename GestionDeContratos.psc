@@ -1,4 +1,4 @@
-//***********************************************************************************************************************
+//***************************************************************************************************************************************************
 //Función que da de baja los contratos.
 Funcion ContratosBajas (CR Por Referencia)
 	//Declaro las variables a utilizar.
@@ -35,12 +35,15 @@ Funcion ContratosBajas (CR Por Referencia)
 		Para I=1 Hasta 11 Con Paso 1 Hacer
 			CR[ConvertirANumero(UnCaracter),I]=0
 		FinPara
+		Escribir ""
+		Escribir "Transacción realizada. - Contrato eliminado."
+		Escribir ""	
 	SiNo
 		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
 	FinSi
 	
 FinFuncion
-//***********************************************************************************************************************
+//***************************************************************************************************************************************************
 //Función que verifica los contratos libres actuales.
 Funcion ContratosCapacidadOciosa (CR Por Referencia)
 	//Declaro las variables a utilizar.
@@ -62,28 +65,28 @@ Funcion ContratosCapacidadOciosa (CR Por Referencia)
 	Escribir "Cantidad de contratos libres: ", CapacidadVacia
 	
 FinFuncion
-//***********************************************************************************************************************
+//***************************************************************************************************************************************************
 //Función que verifica si es un número el valor ingresado.
-Funcion EsUnNumeroDeContrato(DatoCorrecto Por Referencia, ValorIngresado Por Valor)	
+//Funcion EsUnNumeroDeContrato(DatoCorrecto Por Referencia, ValorIngresado Por Valor)	
 	//Declaro las variables a utilizar.	
-	Definir UnCaracter Como Caracter
-	UnCaracter=Subcadena(ValorIngresado,1,1)
-	Segun UnCaracter Hacer
-		"1":
-			DatoCorrecto=Verdadero
-		"2":
-			DatoCorrecto=Verdadero
-		"3":
-			DatoCorrecto=Verdadero
-		"4":
-			DatoCorrecto=Verdadero
-		"5":
-			DatoCorrecto=Verdadero
-		De Otro Modo:
-			DatoCorrecto=Falso
-	FinSegun
-FinFuncion
-//***********************************************************************************************************************
+	//Definir UnCaracter Como Caracter
+	//UnCaracter=Subcadena(ValorIngresado,1,1)
+	//Segun UnCaracter Hacer
+		//"1":
+			//DatoCorrecto=Verdadero
+		//"2":
+			//DatoCorrecto=Verdadero
+		//"3":
+			//DatoCorrecto=Verdadero
+		//"4":
+			//DatoCorrecto=Verdadero
+		//"5":
+			//DatoCorrecto=Verdadero
+		//De Otro Modo:
+			//DatoCorrecto=Falso
+	//FinSegun
+//FinFuncion
+//***************************************************************************************************************************************************
 Funcion MenuPrincipal
 	
 	Limpiar Pantalla
@@ -101,7 +104,7 @@ Funcion MenuPrincipal
 	Escribir "------------------------------------------------------------------------------------------------------------"
 	
 FinFuncion
-//***********************************************************************************************************************//
+//***************************************************************************************************************************************************
 Funcion MenuParametros
 	//Declaro las variables a utilizar
 	Definir A Como Entero
@@ -115,7 +118,7 @@ Funcion MenuParametros
 	Escribir "   1.3. Clase de costos "
 	Escribir "   1.4. Clase de listas de precios"
 	Escribir "   1.5. Clase de servicios"
-	Escribir "   1.6."
+	Escribir ""
 	Escribir ""
 	Escribir "   1.0. Volver menú anterior"
 	Escribir "------------------------------------------------------------------------------------------------------------"
@@ -123,7 +126,7 @@ Funcion MenuParametros
 	Escribir "------------------------------------------------------------------------------------------------------------"
 	
 FinFuncion
-//***********************************************************************************************************************//
+//***************************************************************************************************************************************************
 Funcion MenuContratos
 	//Declaro las variables a utilizar
 	Definir A Como Entero
@@ -135,10 +138,10 @@ Funcion MenuContratos
 	Escribir "------------------------------------------------------------------------------------------------------------"
 	Escribir "   2.1. Altas"
 	Escribir "   2.2. Bajas"
-	Escribir "   2.3. Contratos vigentes "
+	Escribir "   2.3. Listado de contratos"
 	Escribir "   2.4. Capacidad ociosa"
-	Escribir "   2.5."
-	Escribir "   2.6."
+	Escribir ""
+	Escribir ""
 	Escribir ""
 	Escribir "   2.0. Volver menú anterior"
 	Escribir "------------------------------------------------------------------------------------------------------------"
@@ -146,38 +149,51 @@ Funcion MenuContratos
 	Escribir "------------------------------------------------------------------------------------------------------------"
 	
 FinFuncion
-//***********************************************************************************************************************//
+//***************************************************************************************************************************************************
 //Función que realiza el alta de los contratos.
 Funcion ContratosAltas (CR Por Referencia)
 	//Declaro las variables a utilizar.
 	//CR=Iniciales de la variable ContratosRegistros.
 	Definir ContratoIngresado Como Caracter
-	//-----------------------------------------------------------------------------------
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
+	//Se utilizan para la funcion de "SubCadena".
 	Definir UnCaracter Como Caracter
 	Definir DosCaracteres Como Caracter
 	Definir CuatroCaracteres Como Caracter
-	//-----------------------------------------------------------------------------------
+	//Se utiliza para saber la posición dentro de una cadena de caracteres en el ciclo "Para".
+	Definir Posicion Como Entero
+	//Se utiliza para determinar la longitud de la cadena de texto que representa el importe ingresado.
+	Definir LargoImporteIngresado Como Entero
+	//Se utiliza para determinar si el caracter ingresado representa un valor numerico.
+	Definir UnCaracterImporteIngresado Como Caracter
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
 	//Se utilizan para el ingreso de las fechas.	
 	Definir Dia Como Caracter
 	Definir Mes Como Caracter
 	Definir Anio Como Caracter
-	//-----------------------------------------------------------------------------------
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
+	//Se utilizan para cortar los ciclos si los datos ingresados son correctos.
 	Definir DatoCorrecto Como Logico
+	Definir DatoIncorrecto Como Logico
 	Definir FechaCorrecta Como Logico
-	//-----------------------------------------------------------------------------------
+	//Se utiliza para validar que la fecha final sea mayor a la fecha inicial.
+	Definir VolverIngresarFechas Como Logico  
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
 	//Se utiliza para verificar el codigo del rodado.
 	Definir RodadoIngresado Como Caracter
-	//-----------------------------------------------------------------------------------
+	//Se utiliza para verificar el valor ingresado que sea un número entero.
+	Definir ImporteIngresado Como Caracter
+	Definir ValorIngresado Como Caracter
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
 	//Se utiliza para verificar el codigo del servicio.
 	Definir ServicioIngresado Como Caracter
-	//-----------------------------------------------------------------------------------
-	//Se utiliza para validar que la fecha final sea mayor a la fecha inicial.
-	Definir VolverIngresarFechas Como Logico     
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
+   
 	
 	Escribir "Número de contrato: " Sin Saltar
 	Leer ContratoIngresado
 	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.
-	//----------------------------------------------------------------------------------------------------------------------------------------------
+	//-------------------------------------------------------------------------------------------------------------------------------------------------
 	UnCaracter=Subcadena(ContratoIngresado,1,1)
 	
 	Segun UnCaracter Hacer
@@ -392,11 +408,73 @@ Funcion ContratosAltas (CR Por Referencia)
 					DatoCorrecto=Verdadero					
 				De Otro Modo:
 					DatoCorrecto=Falso
-					Escribir "Codigo de rodado incorrecto."
+					Escribir "Codigo de rodado INCORRECTO."
 			FinSegun			
 		Hasta Que DatoCorrecto
 		//Se asigna el codigo del rodado.
 		CR[ConvertirANumero(UnCaracter),9]=Trunc(ConvertirANumero(RodadoIngresado))
+		//-------------------------------------------------------------------------------------------------------------------------------------------
+		//Se valida el valor ingresado que sea un número entero.
+		DatoCorrecto=Falso
+		DatoIncorrecto=Falso
+		//No se sale del bucle hasta que se ingrese el valor de un número entero.
+		Repetir
+			//Se inicializa la variable que va a representar un valor numerico.
+			ValorIngresado=""
+			Escribir "Ingrese el importe total del servicio contratado ($) "
+			Escribir "(Sin comas, ni puntos, seran elimninados) :" Sin Saltar
+			Leer ImporteIngresado
+			//Se obtiene la longitud de la cadena de texto ingresada que representa un valor númerico.
+			LargoImporteIngresado=Longitud(ImporteIngresado)
+			//Se recorre caracter por caracter según la longitud de valor ingresado.
+			Para Posicion=1 Hasta LargoImporteIngresado Con Paso 1 Hacer
+				UnCaracterImporteIngresado=Subcadena(ImporteIngresado, Posicion, Posicion)
+				Segun UnCaracterImporteIngresado Hacer
+					"1":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"2":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"3":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero						
+					"4":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"5":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"6":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"7":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"8":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"9":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					"0":
+						ValorIngresado=Concatenar(ValorIngresado,UnCaracterImporteIngresado)
+						DatoCorrecto=Verdadero
+					De Otro Modo:
+						DatoIncorrecto=Verdadero
+				FinSegun					
+			FinPara
+			//Se utiliza el condicional para no repertir por cada caracter ingresado si es erroneo.
+			Si (DatoCorrecto) Y (DatoIncorrecto) Entonces
+				//Hay datos no numericos en el valor ingresado.
+				Escribir "Importe ingresado INCORRECTO."
+				DatoCorrecto=Falso
+				DatoIncorrecto=Falso
+			SiNo
+				//Se asgina el valor ingresado.
+				CR[ConvertirANumero(UnCaracter),10]=Trunc(ConvertirANumero(ValorIngresado))
+			FinSi
+		Hasta Que (DatoCorrecto) Y No(DatoIncorrecto)
 		//-------------------------------------------------------------------------------------------------------------------------------------------
 		//Se valida los servicios.
 		DatoCorrecto=Falso
@@ -416,16 +494,16 @@ Funcion ContratosAltas (CR Por Referencia)
 					DatoCorrecto=Verdadero
 				De Otro Modo:
 					DatoCorrecto=Falso
-					Escribir "Codigo de servicio incorrecto."
+					Escribir "Codigo de servicio INCORRECTO."
 			FinSegun			
 		Hasta Que DatoCorrecto
 		//Se asigna el codigo del servicio.
 		CR[ConvertirANumero(UnCaracter),11]=Trunc(ConvertirANumero(ServicioIngresado))		
 	SiNo
-		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
+		Escribir "Debe ingresar un número de contratro en el rango de 1 a 5."
 	FinSi
 FinFuncion
-//***********************************************************************************************************************//
+//***************************************************************************************************************************************************
 //Funcion que muestra los contratos vigentes del negocio.
 Funcion ContratosVigentes (CR Por Referencia)
 	//Declaro las variables a utilizar.
@@ -455,7 +533,7 @@ Funcion ContratosVigentes (CR Por Referencia)
 	
 FinFuncion
 
-//***********************************************************************************************************************//
+//***************************************************************************************************************************************************
 //Cuerpo principal del programa.
 Algoritmo GestionDeContratos
 	//Declaro las variables a utilizar
@@ -572,9 +650,9 @@ Algoritmo GestionDeContratos
 					Segun Opcion Hacer
 						1:					
 							Limpiar Pantalla
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Escribir "         Contrato número: "
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Para I=1 Hasta 5 Con Paso 1
 								Escribir "         "  IdentifcaciónDeContratos[I]
 							FinPara
@@ -584,9 +662,9 @@ Algoritmo GestionDeContratos
 							MenuParametros
 						2:	
 							Limpiar Pantalla							
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Escribir "         Clases de rodados: "
-							Escribir  ""
+							Escribir "----------------------------------------------------"
 							Para I=1 Hasta 5 Con Paso 1
 								Escribir "         "  , I, " ",ClaseDeRodados[I]
 							FinPara						
@@ -596,9 +674,9 @@ Algoritmo GestionDeContratos
 							MenuParametros
 						3:
 							Limpiar Pantalla							
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Escribir "          Clases de costos: "
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Para I=1 Hasta 4 Con Paso 1
 								Escribir "         "  , I, " ", ClaseDeCostos[I]
 							FinPara						
@@ -608,9 +686,9 @@ Algoritmo GestionDeContratos
 							MenuParametros
 						4:
 							Limpiar Pantalla							
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Escribir "         Lista de precios"
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Para I=1 Hasta 11 Con Paso 1
 								si I<10 Entonces
 									Escribir "         " , I, "  ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
@@ -624,9 +702,9 @@ Algoritmo GestionDeContratos
 							MenuParametros
 						5:
 							Limpiar Pantalla							
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Escribir "         Lista de servicios"
-							Escribir ""
+							Escribir "----------------------------------------------------"
 							Para I=1 Hasta 5 Con Paso 1
 								Escribir "         "  , I, " ",ClaseDeServicios[I]
 							FinPara						
