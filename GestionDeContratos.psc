@@ -1,92 +1,4 @@
 //***************************************************************************************************************************************************
-//Función que da de baja los contratos.
-Funcion ContratosBajas (CR Por Referencia)
-	//Declaro las variables a utilizar.
-	//CR=Iniciales de la variable ContratosRegistros.
-	//Se declara porque lo solicita el programa Pseint al ejecutar.
-	Definir I Como Entero
-	Definir ContratoIngresado Como Caracter
-	Definir UnCaracter Como Caracter
-	Definir DatoCorrecto Como Logico
-	
-	Escribir "Ingrese el contrato a eliminar: " Sin Saltar
-	Leer ContratoIngresado
-	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.
-	//----------------------------------------------------------------------------------------------------------------------------------------------
-	UnCaracter=Subcadena(ContratoIngresado,1,1)
-	
-	Segun UnCaracter Hacer
-		"1":
-			DatoCorrecto=Verdadero
-		"2":
-			DatoCorrecto=Verdadero
-		"3":
-			DatoCorrecto=Verdadero
-		"4":
-			DatoCorrecto=Verdadero
-		"5":
-			DatoCorrecto=Verdadero
-		De Otro Modo:
-			DatoCorrecto=Falso
-	FinSegun
-	//-----------------------------------------------------------------------------------------------------------------------------------------------	
-	Si DatoCorrecto Entonces
-		//Se elimina el número de contrato.
-		Para I=1 Hasta 11 Con Paso 1 Hacer
-			CR[ConvertirANumero(UnCaracter),I]=0
-		FinPara
-		Escribir ""
-		Escribir "Transacción realizada. - Contrato eliminado."
-		Escribir ""	
-	SiNo
-		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
-	FinSi
-	
-FinFuncion
-//***************************************************************************************************************************************************
-//Función que verifica los contratos libres actuales.
-Funcion ContratosCapacidadOciosa (CR Por Referencia)
-	//Declaro las variables a utilizar.
-	//CR=Iniciales de la variable ContratosRegistros.
-	//Se declara porque lo solicita el programa Pseint al ejecutar.
-	Definir I Como Entero
-	Definir CapacidadVacia Como Entero	
-	//Se inicializa las variables.
-	I=0
-	CapacidadVacia=0
-	
-	Para I=1 hasta 5 Con Paso 1 Hacer
-		Si CR[I,1]=0 Entonces
-			CapacidadVacia=CapacidadVacia+1
-		SiNo
-		FinSi
-	FinPara
-	
-	Escribir "Cantidad de contratos libres: ", CapacidadVacia
-	
-FinFuncion
-//***************************************************************************************************************************************************
-//Función que verifica si es un número el valor ingresado.
-//Funcion EsUnNumeroDeContrato(DatoCorrecto Por Referencia, ValorIngresado Por Valor)	
-	//Declaro las variables a utilizar.	
-	//Definir UnCaracter Como Caracter
-	//UnCaracter=Subcadena(ValorIngresado,1,1)
-	//Segun UnCaracter Hacer
-		//"1":
-			//DatoCorrecto=Verdadero
-		//"2":
-			//DatoCorrecto=Verdadero
-		//"3":
-			//DatoCorrecto=Verdadero
-		//"4":
-			//DatoCorrecto=Verdadero
-		//"5":
-			//DatoCorrecto=Verdadero
-		//De Otro Modo:
-			//DatoCorrecto=Falso
-	//FinSegun
-//FinFuncion
-//***************************************************************************************************************************************************
 Funcion MenuPrincipal
 	
 	Limpiar Pantalla
@@ -166,6 +78,256 @@ Funcion MenuPagos
 	Escribir "------------------------------------------------------------------------------------------------------------"
 FinFuncion
 //***************************************************************************************************************************************************
+//Cuerpo principal del programa.
+Algoritmo GestionDeContratos
+	//Declaro las variables a utilizar
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir I Como Entero
+	//Se utiliza para definir la cantidad de contratos que se pueden realizar dependiendo de la dimensión del negocio.
+	Definir IdentifcaciónDeContratos Como Entero
+	//Se utiliza para definir la clase de rodados del parque automotor actual.
+	Definir ClaseDeRodados Como Caracter
+	//Se utiliza para definir la clase de costos.
+	Definir ClaseDeCostos Como Caracter
+	//Se utiliza para definir la clase de la listas de precios.
+	Definir ClaseDeListasDePrecios Como Caracter
+	//Se utiliza para definir el precio por cada clase de rodados.
+	Definir ClaseDeListasDePreciosImporte Como Real
+	//Se utiliza para definir los servicios que pudiesen ofrecer la activdad del negocio.
+	Definir ClaseDeServicios Como Caracter
+	//Se utilizar para registrar los contratos vigentes de la actividad del negocio.
+	Definir ContratosRegistros Como Entero
+	//Se utilizar para registrar los pagos realizados de los contratos vigentes.
+	//Valor Verdadero=Realizo pago.
+	//Valor Falso=No realizo pago.
+	Definir ContratosPagos Como Logico
+	//Se utiliza para salir del bucle Repetir
+	Definir Opcion Como Entero
+	
+	//Se declara la dimensión del negocio como si tuviera cinco espacios disponibles.
+	Dimension IdentifcaciónDeContratos[5]
+	//Se declara la dimensión de la cantidad de rodados. (Autos/Camionetas/Motos/Bicicleta/Monopatin.)
+	Dimension ClaseDeRodados[5]
+	//Se declara la dimensión de la cantidad de costos. (Bienes/Servicios/Impuestos/Otros).
+	Dimension ClaseDeCostos[4]
+	//Se declara la dimension de los diferentes precios segun la clase del rodado.
+	//(Autos/Camionetas/Motos/Bicicleta/Monopatin.) + (Grande/Mediano/Pequeño)
+	Dimension ClaseDeListasDePrecios[11]
+	Dimension ClaseDeListasDePreciosImporte[11]
+	//Se declara la dimension de los diferentes servicios que puede ofrecer el negocio
+	Dimension ClaseDeServicios[5]
+	//Se declara la dimension de en donde se va a registrar los contratos vigentes.
+	//El indice de la fila indica el número de contrato.
+	//Estructura de la variable= Contrato/FechaDeInicio=Año*Mes*DiaFechaDeFin=Año*Mes*Dia/Dias/Rodados/ImporteTotal/ServicioAsociado.
+	//Columna1=Contrato.
+	//Columna2=AñoInicio.
+	//Columna3=MesInicio.
+	//Columna4=DiaInicio.
+	//Columna5=AñoFin
+	//Columna6=MesFin.
+	//Columna7=DiaFin.
+	//Columna8=Dias.
+	//Columna9=Rodados.
+	//Columna10=ImporteTotal.
+	//Columna11=ServicioAsociado.
+	Dimension ContratosRegistros[5,11]
+	//Se utiliza para determinar que contrato realizo el pago.
+	//El indice indica el número de contrato.
+	Dimension ContratosPagos[5]
+	
+	//Se realiza el alta de los contratos.
+	//Eventualmente a modo de presentación se realiza el alta de la cantidad de 5 (cinco) contratos.
+	Para I=1 Hasta 5 Con Paso 1
+		IdentifcaciónDeContratos[I]=I
+	FinPara
+	
+	//Se realiza el alta de las clases de rodados.
+	ClaseDeRodados[1]="Autos"
+	ClaseDeRodados[2]="Camionetas"
+	ClaseDeRodados[3]="Motos"
+	ClaseDeRodados[4]="Bicicletas"
+	ClaseDeRodados[5]="Monopatin"
+	
+	//Se realiza el alta de las clases de costos.
+	ClaseDeCostos[1]="Bienes"
+	ClaseDeCostos[2]="Servicios"
+	ClaseDeCostos[3]="Impuestos"
+	ClaseDeCostos[4]="Otros"
+	
+	//Se realiza el alta de las clases de listas de precios y el precio correspondiente.
+	ClaseDeListasDePrecios[1]="Autos-Grandes"
+	ClaseDeListasDePreciosImporte[1]=1000.00
+	ClaseDeListasDePrecios[2]="Autos-Medianos"
+	ClaseDeListasDePreciosImporte[2]=900.00
+	ClaseDeListasDePrecios[3]="Autos-Pequeños"
+	ClaseDeListasDePreciosImporte[3]=800.00
+	ClaseDeListasDePrecios[4]="Camionetas-Grandes"
+	ClaseDeListasDePreciosImporte[4]=2000.00
+	ClaseDeListasDePrecios[5]="Camionetas-Medianos"
+	ClaseDeListasDePreciosImporte[5]=1900.00
+	ClaseDeListasDePrecios[6]="Camionetas-Pequeños"
+	ClaseDeListasDePreciosImporte[6]=1800.00	
+	ClaseDeListasDePrecios[7]="Motos-Grandes"
+	ClaseDeListasDePreciosImporte[7]=600.00
+	ClaseDeListasDePrecios[8]="Motos-Medianos"
+	ClaseDeListasDePreciosImporte[8]=500.00
+	ClaseDeListasDePrecios[9]="Motos-Pequeños"
+	ClaseDeListasDePreciosImporte[9]=400.00
+	ClaseDeListasDePrecios[10]="Bicicletas"
+	ClaseDeListasDePreciosImporte[10]=300.00			
+	ClaseDeListasDePrecios[11]="Monopatin"
+	ClaseDeListasDePreciosImporte[11]=200.00			
+	
+	//Se realiza el alta de los servicios que pudiese ofrecer
+	ClaseDeServicios[1]="Lavado"
+	ClaseDeServicios[2]="Mecanica"
+	ClaseDeServicios[3]="Electricidad"
+	ClaseDeServicios[4]="Verficación VTV"
+	ClaseDeServicios[5]="Gestoría"
+	
+	Repetir 
+		
+		MenuPrincipal
+		
+		Leer Opcion
+		
+		Segun Opcion Hacer
+			1:
+				MenuParametros
+				
+				Repetir
+					
+					Leer Opcion
+					
+					Segun Opcion Hacer
+						1:					
+							Limpiar Pantalla
+							Escribir "----------------------------------------------------"
+							Escribir "         Contrato número: "
+							Escribir "----------------------------------------------------"
+							Para I=1 Hasta 5 Con Paso 1
+								Escribir "         "  IdentifcaciónDeContratos[I]
+							FinPara
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						2:	
+							Limpiar Pantalla							
+							Escribir "----------------------------------------------------"
+							Escribir "         Clases de rodados: "
+							Escribir "----------------------------------------------------"
+							Para I=1 Hasta 5 Con Paso 1
+								Escribir "         "  , I, " ",ClaseDeRodados[I]
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						3:
+							Limpiar Pantalla							
+							Escribir "----------------------------------------------------"
+							Escribir "          Clases de costos: "
+							Escribir "----------------------------------------------------"
+							Para I=1 Hasta 4 Con Paso 1
+								Escribir "         "  , I, " ", ClaseDeCostos[I]
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						4:
+							Limpiar Pantalla							
+							Escribir "----------------------------------------------------"
+							Escribir "         Lista de precios"
+							Escribir "----------------------------------------------------"
+							Para I=1 Hasta 11 Con Paso 1
+								si I<10 Entonces
+									Escribir "         " , I, "  ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
+								SiNo
+									Escribir "         " , I, " ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
+								FinSi
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros
+						5:
+							Limpiar Pantalla							
+							Escribir "----------------------------------------------------"
+							Escribir "         Lista de servicios"
+							Escribir "----------------------------------------------------"
+							Para I=1 Hasta 5 Con Paso 1
+								Escribir "         "  , I, " ",ClaseDeServicios[I]
+							FinPara						
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros					
+						6:
+							Limpiar Pantalla							
+							Escribir ""
+							Escribir ""
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros								
+						0:	
+						De otro modo:
+							Escribir ""
+							Escribir "(Opción no válida)"
+							Escribir "Presione una tecla"
+							Esperar Tecla
+							MenuParametros												
+					FinSegun
+				Hasta Que Opcion=0	
+			2:								
+				Repetir
+					MenuContratos
+					Leer opcion
+					Segun Opcion Hacer
+						1:
+							ContratosAltas(ContratosRegistros)
+						2:
+							ContratosBajas(ContratosRegistros)
+						3:
+							ContratosVigentes(ContratosRegistros)
+						4:
+							ContratosCapacidadOciosa(ContratosRegistros)
+						De Otro Modo:
+							
+					FinSegun
+					Esperar Tecla
+				Hasta Que Opcion=0
+			3:
+				Repetir
+					MenuPagos
+					Leer opcion
+					Segun Opcion Hacer
+						1:
+							PagosAltas(ContratosRegistros,ContratosPagos)
+						2:
+							PagosBajas(ContratosRegistros,ContratosPagos)
+						3:
+							PagosListado(ContratosRegistros,ContratosPagos)
+						4:
+							
+						De Otro Modo:
+							
+					FinSegun
+					Esperar Tecla					
+				Hasta Que Opcion=0
+			4:
+			5:
+			9:
+			De otro modo:
+				Escribir "Opción no válida"
+		FinSegun
+	Hasta Que Opcion=9
+	
+	Escribir ""
+	
+FinAlgoritmo
+//***************************************************************************************************************************************************
 //Función que realiza el alta de los contratos.
 Funcion ContratosAltas (CR Por Referencia)
 	//Declaro las variables a utilizar.
@@ -204,7 +366,7 @@ Funcion ContratosAltas (CR Por Referencia)
 	//Se utiliza para verificar el codigo del servicio.
 	Definir ServicioIngresado Como Caracter
 	//-------------------------------------------------------------------------------------------------------------------------------------------------
-   
+	
 	
 	Escribir "Número de contrato: " Sin Saltar
 	Leer ContratoIngresado
@@ -514,10 +676,58 @@ Funcion ContratosAltas (CR Por Referencia)
 			FinSegun			
 		Hasta Que DatoCorrecto
 		//Se asigna el codigo del servicio.
-		CR[ConvertirANumero(UnCaracter),11]=Trunc(ConvertirANumero(ServicioIngresado))		
+		CR[ConvertirANumero(UnCaracter),11]=Trunc(ConvertirANumero(ServicioIngresado))
+		Escribir""
+		Escribir"Transacción realizada. Presione cualquier tecla"
+		Escribir""
 	SiNo
 		Escribir "Debe ingresar un número de contratro en el rango de 1 a 5."
 	FinSi
+FinFuncion
+//***************************************************************************************************************************************************
+//Función que da de baja los contratos.
+Funcion ContratosBajas (CR Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable ContratosRegistros.
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir I Como Entero
+	Definir ContratoIngresado Como Caracter
+	Definir UnCaracter Como Caracter
+	Definir DatoCorrecto Como Logico
+	
+	Escribir "Ingrese el contrato a eliminar: " Sin Saltar
+	Leer ContratoIngresado
+	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.
+	//----------------------------------------------------------------------------------------------------------------------------------------------
+	UnCaracter=Subcadena(ContratoIngresado,1,1)
+	
+	Segun UnCaracter Hacer
+		"1":
+			DatoCorrecto=Verdadero
+		"2":
+			DatoCorrecto=Verdadero
+		"3":
+			DatoCorrecto=Verdadero
+		"4":
+			DatoCorrecto=Verdadero
+		"5":
+			DatoCorrecto=Verdadero
+		De Otro Modo:
+			DatoCorrecto=Falso
+	FinSegun
+	//-----------------------------------------------------------------------------------------------------------------------------------------------	
+	Si DatoCorrecto Entonces
+		//Se elimina el número de contrato.
+		Para I=1 Hasta 11 Con Paso 1 Hacer
+			CR[ConvertirANumero(UnCaracter),I]=0
+		FinPara
+		Escribir ""
+		Escribir "Transacción realizada. - Contrato eliminado."
+		Escribir ""	
+	SiNo
+		Escribir "Debe ingresar un número de contratro en el rando de 1 a 5."
+	FinSi
+	
 FinFuncion
 //***************************************************************************************************************************************************
 //Funcion que muestra los contratos vigentes del negocio.
@@ -547,7 +757,28 @@ Funcion ContratosVigentes (CR Por Referencia)
 	FinPara
 	
 FinFuncion
-
+//***************************************************************************************************************************************************
+//Función que verifica los contratos libres actuales.
+Funcion ContratosCapacidadOciosa (CR Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable ContratosRegistros.
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir I Como Entero
+	Definir CapacidadVacia Como Entero	
+	//Se inicializa las variables.
+	I=0
+	CapacidadVacia=0
+	
+	Para I=1 hasta 5 Con Paso 1 Hacer
+		Si CR[I,1]=0 Entonces
+			CapacidadVacia=CapacidadVacia+1
+		SiNo
+		FinSi
+	FinPara
+	
+	Escribir "Cantidad de contratos libres: ", CapacidadVacia
+	
+FinFuncion
 //***************************************************************************************************************************************************
 //Función que realiza el ingreso de pago segun el contrato.
 Funcion PagosAltas (CR Por Referencia, CP Por Referencia)
@@ -609,12 +840,13 @@ Funcion PagosAltas (CR Por Referencia, CP Por Referencia)
 				//Se graba la información del pago realizado.
 				Si Mayusculas(Confirma)="S" Entonces
 					CP[ConvertirANumero(UnCaracter)]=Verdadero
-					Escribir "Transacción realizada"
+					Escribir "Transacción realizada. Presione cualquier tecla"
 				SiNo
-					Escribir "Transacción cancelada"
+					Escribir "Transacción cancelada. Presione cualquier tecla"
 				FinSi
 			SiNo
 				//No hay contrato vigente.
+				Escribir "No se encontraron contratos vigentes."
 			FinSi
 		Sino
 			//Contratos fuera del rango de 1 a 5.
@@ -624,254 +856,124 @@ Funcion PagosAltas (CR Por Referencia, CP Por Referencia)
 	Hasta Que DatoCorrecto
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------------------	
-	
-	
-	
 FinFuncion
 //***************************************************************************************************************************************************
-//Cuerpo principal del programa.
-Algoritmo GestionDeContratos
-	//Declaro las variables a utilizar
-	//Se declara porque lo solicita el programa Pseint al ejecutar.
-	Definir I Como Entero
-	//Se utiliza para definir la cantidad de contratos que se pueden realizar dependiendo de la dimensión del negocio.
-	Definir IdentifcaciónDeContratos Como Entero
-	//Se utiliza para definir la clase de rodados del parque automotor actual.
-	Definir ClaseDeRodados Como Caracter
-	//Se utiliza para definir la clase de costos.
-	Definir ClaseDeCostos Como Caracter
-	//Se utiliza para definir la clase de la listas de precios.
-	Definir ClaseDeListasDePrecios Como Caracter
-	//Se utiliza para definir el precio por cada clase de rodados.
-	Definir ClaseDeListasDePreciosImporte Como Real
-	//Se utiliza para definir los servicios que pudiesen ofrecer la activdad del negocio.
-	Definir ClaseDeServicios Como Caracter
-	//Se utilizar para registrar los contratos vigentes de la actividad del negocio.
-	Definir ContratosRegistros Como Entero
-	//Se utilizar para registrar los pagos realizados de los contratos vigentes.
-	//Valor Verdadero=Realizo pago.
-	//Valor Falso=No realizo pago.
-	Definir ContratosPagos Como Logico
-	//Se utiliza para salir del bucle Repetir
-	Definir Opcion Como Entero
+//Función que realiza la baja de un pago previamente informado.
+Funcion PagosBajas (CR Por Referencia, CP Por Referencia)
+	//Se define las variables a utilzar.
+	//CP=Iniciales de la variable "ContratosPagos"
+	Definir ContratoIngresado Como Caracter
+	//Se utiliza para la funcion de "SubCadena".
+	Definir UnCaracter Como Caracter
+	//Se utiliza para cortar los ciclos si los datos ingresados son correctos.
+	Definir DatoCorrecto Como Logico
+	//Se utiliza para registrar el pago.
+	Definir Confirma Como Caracter	
 	
-	//Se declara la dimensión del negocio como si tuviera cinco espacios disponibles.
-	Dimension IdentifcaciónDeContratos[5]
-	//Se declara la dimensión de la cantidad de rodados. (Autos/Camionetas/Motos/Bicicleta/Monopatin.)
-	Dimension ClaseDeRodados[5]
-	//Se declara la dimensión de la cantidad de costos. (Bienes/Servicios/Impuestos/Otros).
-	Dimension ClaseDeCostos[4]
-	//Se declara la dimension de los diferentes precios segun la clase del rodado.
-	//(Autos/Camionetas/Motos/Bicicleta/Monopatin.) + (Grande/Mediano/Pequeño)
-	Dimension ClaseDeListasDePrecios[11]
-	Dimension ClaseDeListasDePreciosImporte[11]
-	//Se declara la dimension de los diferentes servicios que puede ofrecer el negocio
-	Dimension ClaseDeServicios[5]
-	//Se declara la dimension de en donde se va a registrar los contratos vigentes.
-	//El indice de la fila indica el número de contrato.
-	//Estructura de la variable= Contrato/FechaDeInicio=Año*Mes*DiaFechaDeFin=Año*Mes*Dia/Dias/Rodados/ImporteTotal/ServicioAsociado.
-	//Columna1=Contrato.
-	//Columna2=AñoInicio.
-	//Columna3=MesInicio.
-	//Columna4=DiaInicio.
-	//Columna5=AñoFin
-	//Columna6=MesFin.
-	//Columna7=DiaFin.
-	//Columna8=Dias.
-	//Columna9=Rodados.
-	//Columna10=ImporteTotal.
-	//Columna11=ServicioAsociado.
-	Dimension ContratosRegistros[5,11]
-	//Se utiliza para determinar que contrato realizo el pago.
-	//El indice indica el número de contrato.
-	Dimension ContratosPagos[5]
-	
-	//Se realiza el alta de los contratos.
-	//Eventualmente a modo de presentación se realiza el alta de la cantidad de 5 (cinco) contratos.
-	Para I=1 Hasta 5 Con Paso 1
-		IdentifcaciónDeContratos[I]=I
-	FinPara
-	
-	//Se realiza el alta de las clases de rodados.
-	ClaseDeRodados[1]="Autos"
-	ClaseDeRodados[2]="Camionetas"
-	ClaseDeRodados[3]="Motos"
-	ClaseDeRodados[4]="Bicicletas"
-	ClaseDeRodados[5]="Monopatin"
-	
-	//Se realiza el alta de las clases de costos.
-	ClaseDeCostos[1]="Bienes"
-	ClaseDeCostos[2]="Servicios"
-	ClaseDeCostos[3]="Impuestos"
-	ClaseDeCostos[4]="Otros"
-	
-	//Se realiza el alta de las clases de listas de precios y el precio correspondiente.
-	ClaseDeListasDePrecios[1]="Autos-Grandes"
-	ClaseDeListasDePreciosImporte[1]=1000.00
-	ClaseDeListasDePrecios[2]="Autos-Medianos"
-	ClaseDeListasDePreciosImporte[2]=900.00
-	ClaseDeListasDePrecios[3]="Autos-Pequeños"
-	ClaseDeListasDePreciosImporte[3]=800.00
-	ClaseDeListasDePrecios[4]="Camionetas-Grandes"
-	ClaseDeListasDePreciosImporte[4]=2000.00
-	ClaseDeListasDePrecios[5]="Camionetas-Medianos"
-	ClaseDeListasDePreciosImporte[5]=1900.00
-	ClaseDeListasDePrecios[6]="Camionetas-Pequeños"
-	ClaseDeListasDePreciosImporte[6]=1800.00	
-	ClaseDeListasDePrecios[7]="Motos-Grandes"
-	ClaseDeListasDePreciosImporte[7]=600.00
-	ClaseDeListasDePrecios[8]="Motos-Medianos"
-	ClaseDeListasDePreciosImporte[8]=500.00
-	ClaseDeListasDePrecios[9]="Motos-Pequeños"
-	ClaseDeListasDePreciosImporte[9]=400.00
-	ClaseDeListasDePrecios[10]="Bicicletas"
-	ClaseDeListasDePreciosImporte[10]=300.00			
-	ClaseDeListasDePrecios[11]="Monopatin"
-	ClaseDeListasDePreciosImporte[11]=200.00			
-	
-	//Se realiza el alta de los servicios que pudiese ofrecer
-	ClaseDeServicios[1]="Lavado"
-	ClaseDeServicios[2]="Mecanica"
-	ClaseDeServicios[3]="Electricidad"
-	ClaseDeServicios[4]="Verficación VTV"
-	ClaseDeServicios[5]="Gestoría"
-	
-	Repetir 
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	//Se verifica que el dato ingresado se encuentre dentro del rango de los contratos.		
+	Repetir
 		
-		MenuPrincipal
+		Escribir "Número de contrato: " Sin Saltar
+		Leer ContratoIngresado
 		
-		Leer Opcion
-		
-		Segun Opcion Hacer
-			1:
-				MenuParametros
-				
-				Repetir
-					
-					Leer Opcion
-					
-					Segun Opcion Hacer
-						1:					
-							Limpiar Pantalla
-							Escribir "----------------------------------------------------"
-							Escribir "         Contrato número: "
-							Escribir "----------------------------------------------------"
-							Para I=1 Hasta 5 Con Paso 1
-								Escribir "         "  IdentifcaciónDeContratos[I]
-							FinPara
-							Escribir ""
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros
-						2:	
-							Limpiar Pantalla							
-							Escribir "----------------------------------------------------"
-							Escribir "         Clases de rodados: "
-							Escribir "----------------------------------------------------"
-							Para I=1 Hasta 5 Con Paso 1
-								Escribir "         "  , I, " ",ClaseDeRodados[I]
-							FinPara						
-							Escribir ""
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros
-						3:
-							Limpiar Pantalla							
-							Escribir "----------------------------------------------------"
-							Escribir "          Clases de costos: "
-							Escribir "----------------------------------------------------"
-							Para I=1 Hasta 4 Con Paso 1
-								Escribir "         "  , I, " ", ClaseDeCostos[I]
-							FinPara						
-							Escribir ""
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros
-						4:
-							Limpiar Pantalla							
-							Escribir "----------------------------------------------------"
-							Escribir "         Lista de precios"
-							Escribir "----------------------------------------------------"
-							Para I=1 Hasta 11 Con Paso 1
-								si I<10 Entonces
-									Escribir "         " , I, "  ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
-								SiNo
-									Escribir "         " , I, " ", ClaseDeListasDePrecios[I] ," $ ", ClaseDeListasDePreciosImporte[I]
-								FinSi
-							FinPara						
-							Escribir ""
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros
-						5:
-							Limpiar Pantalla							
-							Escribir "----------------------------------------------------"
-							Escribir "         Lista de servicios"
-							Escribir "----------------------------------------------------"
-							Para I=1 Hasta 5 Con Paso 1
-								Escribir "         "  , I, " ",ClaseDeServicios[I]
-							FinPara						
-							Escribir ""
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros					
-						6:
-							Limpiar Pantalla							
-							Escribir ""
-							Escribir ""
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros								
-						0:	
-						De otro modo:
-							Escribir ""
-							Escribir "(Opción no válida)"
-							Escribir "Presione una tecla"
-							Esperar Tecla
-							MenuParametros												
-					FinSegun
-				Hasta Que Opcion=0	
-			2:								
-				Repetir
-					MenuContratos
-					Leer opcion
-					Segun Opcion Hacer
-						1:
-							ContratosAltas(ContratosRegistros)
-						2:
-							ContratosBajas(ContratosRegistros)
-						3:
-							ContratosVigentes(ContratosRegistros)
-						4:
-							ContratosCapacidadOciosa(ContratosRegistros)
-						De Otro Modo:
-							
-					FinSegun
-					Esperar Tecla
-				Hasta Que Opcion=0
-			3:
-				Repetir
-					MenuPagos
-					Leer opcion
-					Segun Opcion Hacer
-						1:
-							PagosAltas(ContratosRegistros,ContratosPagos)
-						2:
-						3:
-						4:
-						De Otro Modo:
-							
-					FinSegun
-					Esperar Tecla					
-				Hasta Que Opcion=0
-			4:
-			5:
-			9:
-			De otro modo:
-				Escribir "Opción no válida"
+		UnCaracter=Subcadena(ContratoIngresado,1,1)
+		//Se busca si hay contrato vigente para imputar el pago.
+		Segun UnCaracter Hacer
+			"1":
+				DatoCorrecto=Verdadero
+			"2":
+				DatoCorrecto=Verdadero
+			"3":
+				DatoCorrecto=Verdadero
+			"4":
+				DatoCorrecto=Verdadero
+			"5":
+				DatoCorrecto=Verdadero
+			De Otro Modo:
+				DatoCorrecto=Falso
 		FinSegun
-	Hasta Que Opcion=9
+		
+		Si DatoCorrecto Entonces
+			//Contratos dentro del rango de 1 a 5.
+			//Se verifica que existan contratos vigentes.
+			Si CR[ConvertirANumero(UnCaracter),1]<>0 Entonces
+				//Existen contratos vigentes.
+				//Se trae la información.
+				Repetir
+					Escribir""
+					Escribir "*******************************************************************************************************************************"
+					Escribir "(Número de contrato): " , CR[ConvertirANumero(UnCaracter),1]	," (Inicio): ", CR[ConvertirANumero(UnCaracter),4] ,"/",CR[ConvertirANumero(UnCaracter),3] ,"/",CR[ConvertirANumero(UnCaracter),2] ," (Fin): ",CR[ConvertirANumero(UnCaracter),7] ,"/",CR[ConvertirANumero(UnCaracter),6],"/",CR[ConvertirANumero(UnCaracter),5], " (Días): ",CR[ConvertirANumero(UnCaracter),8]
+					Escribir "(Rodado):             " , CR[ConvertirANumero(UnCaracter),9] 
+					Escribir "(Importe total):      " , CR[ConvertirANumero(UnCaracter),10] ," $"
+					Escribir "(Servicio):           " , CR[ConvertirANumero(UnCaracter),11]
+					Escribir "*******************************************************************************************************************************"
+					Escribir""				
+					Escribir"¿Confirma la eliminación del pago? (S/N) :" Sin Saltar
+					Leer Confirma
+					Escribir""
+				Hasta Que Mayusculas(Confirma)="S" o Mayusculas(Confirma)="N"				
+			Sino
+				//No existen contratos vigentes.
+				Escribir "No se encontraron contratos vigentes."
+			FinSi
+			
+			Si Mayusculas(Confirma)="S" Entonces
+				CP[ConvertirANumero(UnCaracter)]=Falso
+				Escribir "Transacción realizada. Presione cualquier tecla"
+			SiNo
+				Escribir "Transacción cancelada. Presione cualquier tecla"
+			FinSi
+			
+		SiNo
+			//Contratos fuera del rango de 1 a 5.
+			Escribir "No se econtraton contratos"			
+		FinSi
+	Hasta Que DatoCorrecto
+FinFuncion
+//***************************************************************************************************************************************************
+//Función que lista los pagos ingresados.
+Funcion PagosListado(CR Por Referencia, CP Por Referencia)
+	//Declaro las variables a utilizar.
+	//CR=Iniciales de la variable "ContratosRegistros".
+	//CP=Iniciales de la variable "ContratosPagos".
+	//Se declara porque lo solicita el programa Pseint al ejecutar.
+	Definir Indice Como Entero
+	//Se utiliza para determinar si no se registró ningun pago.
+	Definir TotalDeImpagos Como Entero
 	
-	Escribir ""
+	Limpiar Pantalla
 	
-FinAlgoritmo
+	//Se busca en los registros de pagos, ¿quienes pagaron?.
+	Para Indice=1 Hasta 5 Con Paso 1 Hacer
+		//Se evalua el valor ingresado "VERDADERO" o "FALSO".
+		Si CP[Indice] Entonces
+			//Se encontro un pago registrado.
+			//La variable "PagosColumnas" representa el indice y a su vez el número de contrato.
+			//Se muestra los contratos.
+			Escribir ""
+			Escribir "*******************************************************************************************************************************"
+			Escribir "(Número de contrato): " , CR[Indice,1]	,"  (Inicio): ", CR[Indice,4] ,"/",CR[Indice,3] ,"/",CR[Indice,2] ," (Fin): ",CR[Indice,7] ,"/",CR[Indice,6] ,"/",CR[Indice,5] , " (Días): ",CR[Indice,8]
+			Escribir "(Rodado):             " , CR[Indice,9] 
+			Escribir "(Importe total):      " , CR[Indice,10] ," $ (Estado): Pago"
+			Escribir "(Servicio):           " , CR[Indice,11]
+			Escribir "*******************************************************************************************************************************"			
+		SiNo
+			//No se encontro un pago registrado.
+			//Se verifica si existe contrato vigente.
+			Si CR[Indice,1]<>0 Entonces
+				//Hay contrato vigente.
+				//Se informa si no se registraron pagos.
+				TotalDeImpagos=TotalDeImpagos+1
+			SiNo
+				//No hay contrato vigente.
+			FinSi
+		FinSi
+		
+	FinPara
+	Si TotalDeImpagos=5 Entonces
+		Escribir "No se registro ningún pago"
+	FinSi
+FinFuncion
+//***************************************************************************************************************************************************
+	
