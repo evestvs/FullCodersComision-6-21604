@@ -994,12 +994,21 @@ Funcion PuntoDeEquilibrio (CP Por Referencia, CR Por Referencia ,CI Por Referenc
 	//Se declara las variables a utilizar.
 	//CP=Iniciales de la variable "ContratosPagos".
 	//CR=Iniciales de la variable "ContratosRegistros[10]".
-	//CI= Iniciales de la variable "CostosImportes".
+	//CI=Iniciales de la variable "CostosImportes".
 	
 	//Se utiliza para acumular el total de los pagos.
 	Definir TotalDePagos Como Entero
 	//Se utiliza para acumular el total de los costos.
 	Definir TotalDeCostos Como Entero
+	//Se utiliza para deterinar el estado del punto de equilibrio.
+	Definir Resultado Como Real
+	
+	//Se busca los pagos ingresados y se acumula en la variable "TotalDePagos".
+	
+	//Se busca los costos ingresados y se acumula en la variable "TotalDeCostos".
+	
+	//Se realiza la operacion aritmetica "TotalDePagos-TotalDeCostos=Resultado", asi de poder determinar el punto de equilibrio del negocio.
+	Escribir "Punto de equilibrio: $", Resultado=TotalDePagos-TotalDeCostos
 	
 FinFuncion
 //***************************************************************************************************************************************************
