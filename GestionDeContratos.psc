@@ -905,6 +905,76 @@ Funcion CostosImportesAltas(CDC Por Referencia,CI Por Referencia)
 	//-------------------------------------------------------------------------------------------------------------------------------------------------	
 FinFuncion
 //***************************************************************************************************************************************************
+//Función que realiza la baja de un costo previamente informado.
+Funcion CostoBaja (CDC Por Referencia,CI Por Referencia)
+	//Se declara las variables a utilizar
+	//CDC= Iniciales de las variable "CostoClaseDeCostos".
+	//CI= Iniciales de la variable "CostosImportes".	
+	//Se utiliza para determinar el codigo de la clase de costo.
+	Definir CodigoDeCosto Como Caracter
+
+	Definir UnCaracter Como Caracter
+	
+	Definir Posicion Como Entero
+	
+	//Se utilizan para cortar los ciclos si los datos ingresados son correctos.
+	Definir DatoCorrecto Como Logico
+	Definir DatoIncorrecto Como Logico
+	Definir Confirma Como Caracter
+	
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	//Se verifica que el dato ingresado se encuentre dentro del rango de los costos	
+	Escribir "Codigo del costo: " Sin Saltar
+	Leer CodigoDeCosto
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	//Se obtiene el primer caracter de la variable "CodigoDeCosto".
+	UnCaracter=Subcadena(CodigoDeCosto,1,1)
+	//Se busca si hay contrato vigente para imputar el pago.
+	Segun UnCaracter Hacer
+		"1":
+			DatoCorrecto=Verdadero
+		"2":
+			DatoCorrecto=Verdadero
+		"3":
+			DatoCorrecto=Verdadero
+		"4":
+			DatoCorrecto=Verdadero
+		De Otro Modo:
+			DatoCorrecto=Falso
+	FinSegun	
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	Si DatoCorrecto Entonces
+		//Existe el codigo del costo.
+		//Se valida la información consultada.
+		
+		Escribir "*", CDC[UnCaracter], " --------> $ ",  CI[UnCaracter]
+		
+		Repetir
+			Escribir""
+			Escribir"¿Confirma la eliminación del costo? (S/N) :" Sin Saltar
+			Leer Confirma
+			Escribir""
+		Hasta Que Mayusculas(Confirma)="S" o Mayusculas(Confirma)="N"
+		
+		//Se graba la información del pago realizado.
+		Si Mayusculas(Confirma)="S" Entonces
+			CI[ConvertirANumero(UnCaracter)]=0
+			Escribir "Transacción realizada."
+			Escribir "Presione cualquier tecla."
+		SiNo
+			Escribir "Transacción cancelada."
+			Escribir "Presione cualquier tecla."	
+		FinSi		
+	SiNo
+		//No existe el codigo del costo.
+		Escribir ""
+		Escribir "Transacción cancelada."
+		Escribir "El codigo ingresado no se encuentra dentro del rango 1-4."
+		Escribir ""
+	FinSi
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+FinFuncion
+//***************************************************************************************************************************************************
 //Funcion que muestra el listado de costos cargados.
 Funcion CostosListado(CDC Por Referencia,CI Por Referencia)
 	//Se declara las variables a utilizar
@@ -913,7 +983,7 @@ Funcion CostosListado(CDC Por Referencia,CI Por Referencia)
 	Definir Posicion Como Entero
 	Escribir ""
 	Para Posicion=1 Hasta 4 Con Paso 1 Hacer
-		Escribir " * " CDC[Posicion], " --------> ",  CI[Posicion] ," $"
+		Escribir " * " CDC[Posicion], " --------> $ ",  CI[Posicion]
 	Fin Para
 	Escribir ""
 	Escribir "Presione una tecla para continuar."
@@ -987,17 +1057,17 @@ Algoritmo GestionDeContratos
 	FinPara
 	
 	//Se realiza el alta de las clases de rodados.
-	ClaseDeRodados[1]="Autos"
+	ClaseDeRodados[1]="Autos     "
 	ClaseDeRodados[2]="Camionetas"
-	ClaseDeRodados[3]="Motos"
+	ClaseDeRodados[3]="Motos     "
 	ClaseDeRodados[4]="Bicicletas"
-	ClaseDeRodados[5]="Monopatin"
+	ClaseDeRodados[5]="Monopatin "
 	
 	//Se realiza el alta de las clases de costos.
-	ClaseDeCostos[1]="Bienes"
-	ClaseDeCostos[2]="Servicios"
-	ClaseDeCostos[3]="Impuestos"
-	ClaseDeCostos[4]="Otros"
+	ClaseDeCostos[1]="Bienes    "
+	ClaseDeCostos[2]="Servicios "
+	ClaseDeCostos[3]="Impuestos "
+	ClaseDeCostos[4]="Otros     "
 	
 	//Se realiza el alta de las clases de listas de precios y el precio correspondiente.
 	ClaseDeListasDePrecios[1]="Autos-Grandes"
@@ -1169,6 +1239,7 @@ Algoritmo GestionDeContratos
 						1:
 							CostosImportesAltas(ClaseDeCostos,CostosImportes)
 						2:
+							CostoBaja(ClaseDeCostos,CostosImportes)
 						3:
 							CostosListado(ClaseDeCostos,CostosImportes)
 						4:
