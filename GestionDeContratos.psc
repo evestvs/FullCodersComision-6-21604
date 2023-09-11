@@ -826,8 +826,6 @@ Funcion CostosImportesAltas(CDC Por Referencia,CI Por Referencia)
 			DatoCorrecto=Verdadero
 		"4":
 			DatoCorrecto=Verdadero
-		"5":
-			DatoCorrecto=Verdadero
 		De Otro Modo:
 			DatoCorrecto=Falso
 	FinSegun	
@@ -895,12 +893,14 @@ Funcion CostosImportesAltas(CDC Por Referencia,CI Por Referencia)
 			SiNo
 				//Se asgina el valor ingresado.
 				CI[ConvertirANumero(UnCaracter)]=Trunc(ConvertirANumero(ValorIngresado))
+				Escribir ""
+				Escribir "Transacción realizada. Presione cualquier tecla para continuar."
 			FinSi
 		Hasta Que (DatoCorrecto) Y No(DatoIncorrecto)
 		//---------------------------------------------------------------------------------------------------------------------------------------------
 	SiNo
 		//Codigo del costo inexistente.
-		Escribir "Codigo del costo inexistente en el rango de 1 a 5."
+		Escribir "Codigo del costo inexistente en el rango de 1 a 4."
 	Fin Si
 	//-------------------------------------------------------------------------------------------------------------------------------------------------	
 FinFuncion
@@ -979,7 +979,7 @@ Algoritmo GestionDeContratos
 	Dimension ContratosPagos[5]
 	//Se utiliza para ingresar los importes de los costos incurridos.
 	//El indice indica el número de contrato.
-	Dimension CostosImportes[5]
+	Dimension CostosImportes[4]
 	//Se realiza el alta de los contratos.
 	//Eventualmente a modo de presentación se realiza el alta de la cantidad de 5 (cinco) contratos.
 	Para I=1 Hasta 5 Con Paso 1
