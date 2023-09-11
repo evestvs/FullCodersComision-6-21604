@@ -989,6 +989,20 @@ Funcion CostosListado(CDC Por Referencia,CI Por Referencia)
 	Escribir "Presione una tecla para continuar."
 FinFuncion
 //***************************************************************************************************************************************************
+//Función que determina el punto de equilibrio del negocio.
+Funcion PuntoDeEquilibrio (CP Por Referencia, CR Por Referencia ,CI Por Referencia)
+	//Se declara las variables a utilizar.
+	//CP=Iniciales de la variable "ContratosPagos".
+	//CR=Iniciales de la variable "ContratosRegistros[10]".
+	//CI= Iniciales de la variable "CostosImportes".
+	
+	//Se utiliza para acumular el total de los pagos.
+	Definir TotalDePagos Como Entero
+	//Se utiliza para acumular el total de los costos.
+	Definir TotalDeCostos Como Entero
+	
+FinFuncion
+//***************************************************************************************************************************************************
 //Cuerpo principal del programa.
 Algoritmo GestionDeContratos
 	//Declaro las variables a utilizar
