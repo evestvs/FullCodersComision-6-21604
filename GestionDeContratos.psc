@@ -1252,7 +1252,7 @@ Algoritmo GestionDeContratos
 			2:								
 				Repetir
 					MenuContratos
-					Leer opcion
+					Leer Opcion
 					Segun Opcion Hacer
 						1:
 							ContratosAltas(ContratosRegistros)
@@ -1270,7 +1270,7 @@ Algoritmo GestionDeContratos
 			3:
 				Repetir
 					MenuPagos
-					Leer opcion
+					Leer Opcion
 					Segun Opcion Hacer
 						1:
 							PagosAltas(ContratosRegistros,ContratosPagos)
@@ -1288,7 +1288,7 @@ Algoritmo GestionDeContratos
 			4:
 				Repetir
 					MenuCostos
-					Leer opcion
+					Leer Opcion
 					Segun Opcion Hacer
 						1:
 							CostosImportesAltas(ClaseDeCostos,CostosImportes)
