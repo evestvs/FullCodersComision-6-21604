@@ -1002,14 +1002,45 @@ Funcion PuntoDeEquilibrio (CP Por Referencia, CR Por Referencia ,CI Por Referenc
 	Definir TotalDeCostos Como Entero
 	//Se utiliza para deterinar el estado del punto de equilibrio.
 	Definir Resultado Como Real
+	//Se utiliza para determinar la posicion del índice.
+	Definir Posicion Como Entero
 	
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	//Se inicializan las variables.
+	TotalDePagos=0
+	TotalDeCostos=0
+	Resultado=0
+	Posicion=0
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
 	//Se busca los pagos ingresados y se acumula en la variable "TotalDePagos".
-	
+	Para Posicion=1 Hasta 5 Con Paso 1 Hacer
+		Si CP[Posicion] Entonces
+			//Se registraron pagos.
+			TotalDePagos=TotalDePagos + CR[Posicion,10]
+		SiNo
+			//No se registraron pagos.
+		Fin Si
+	Fin Para
+	Escribir ""
+	Escribir "------------------------------------------"
+	Escribir "     Total de pagos: $ ", TotalDePagos
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	Escribir "              Menos "
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
 	//Se busca los costos ingresados y se acumula en la variable "TotalDeCostos".
-	
+	//Se inicializa la variable.
+	Posicion=0
+	Para Posicion=1 Hasta 4 Con Paso 1 Hacer
+		TotalDeCostos=TotalDeCostos+CI[Posicion]
+	Fin Para
+	Escribir "    Total de costos: $ ", TotaldeCostos
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
+	Escribir "------------------------------------------"
 	//Se realiza la operacion aritmetica "TotalDePagos-TotalDeCostos=Resultado", asi de poder determinar el punto de equilibrio del negocio.
-	Escribir "Punto de equilibrio: $", Resultado=TotalDePagos-TotalDeCostos
-	
+	Resultado=TotalDePagos-TotalDeCostos
+	Escribir "Punto de equilibrio: $ ", Resultado
+	Escribir ""
+	//-------------------------------------------------------------------------------------------------------------------------------------------------	
 FinFuncion
 //***************************************************************************************************************************************************
 //Cuerpo principal del programa.
@@ -1266,6 +1297,7 @@ Algoritmo GestionDeContratos
 						3:
 							CostosListado(ClaseDeCostos,CostosImportes)
 						4:
+							PuntoDeEquilibrio(ContratosPagos,ContratosRegistros,CostosImportes)
 						De Otro Modo:
 							
 					FinSegun
